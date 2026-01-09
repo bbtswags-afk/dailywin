@@ -188,7 +188,12 @@ export const forgotPassword = async (req, res) => {
             }
         });
 
-        await sendPasswordResetEmail(user.email, resetToken);
+        // Send Email (Non-blocking)
+        sendPasswordResetEmail(user.email, resetToken).then(() => {
+            console.log(`✅ Reset email sent to ${user.email}`);
+        }).catch(err => {
+            console.error("❌ Failed to send reset email:", err);
+        });
 
         res.json({ message: 'Email sent' });
     } catch (error) {
