@@ -1,0 +1,59 @@
+≡ƒÜÇ Manually Triggering Prediction Engine (Scraper Mode)...
+≡ƒº╣ FORCE CLEARED PENDING PREDICTIONS.
+TimeAPI failed, trying fallback... The operation was aborted due to timeout
+≡ƒñû AI Engine Processing for: 2026-01-09
+≡ƒº╣ Cleared stale pending predictions.
+Fetching new fixtures from API...
+TimeAPI failed, trying fallback... fetch failed
+≡ƒôà Using Online True Date: 2026-01-09T02:46:17.884Z
+≡ƒò╖∩╕Å Scraping Fixtures from LiveScore.com for date: 20260109
+Γ£à Scraped & Mapped 17 Fixtures.
+≡ƒöÄ Found 2 matches in Strict Whitelist.
+
+≡ƒöÄ Processing: Getafe vs Real Sociedad
+   - Fetching Context...
+≡ƒöÄ Searching Free API for Real Data: Getafe vs Real Sociedad
+≡ƒåô FreeAPI: Looking up match for Getafe vs Real Sociedad (LaLiga)
+   -> FreeAPI: Fetched 6 matches in window.
+   -> Found Match ID: 544392 (Teams: 82/92)
+Debug H2H: HomeID=82, AwayID=92. Scanning 18 matches.
+   Sample Match: Rayo Vallecano de Madrid vs Getafe CF (2026-01-02T20:00:00Z)
+   Found 0 H2H matches.
+   -> Γ£à Real H2H/Form Data Acquired via Football-Data.org.
+   - Generating AI Prediction...
+   - AI Result: Over 1.5 Goals
+   - Saving to DB...
+Prediction Logic Error: PrismaClientValidationError: 
+Invalid `prisma.prediction.create()` invocation:
+
+{
+  data: {
+    date: new Date("2026-01-09T02:46:17.884Z"),
+    homeTeam: "Getafe",
+    awayTeam: "Real Sociedad",
+    league: "LaLiga",
+    prediction: "Over 1.5 Goals",
+    odds: 1.3,
+          ~~~
+    confidence: 80,
+    analysis: "H2H: N/A (Real). Form: Home DLLLW, Away DDLLL. Style: Balanced.",
+    reasoning: "Given the goal statistics, both teams have struggled with defense, with Real Sociedad conceding 8 goals at home and 8 goals away in their last 5 games. Getafe's form suggests they can capitalize on Real Sociedad's defensive vulnerabilities, potentially leading to a high-scoring match. However, the safest bet considering the data is 'Over 1.5 Goals' as it requires the least amount of goals to be scored, making it more likely to happen.",
+    result: "PENDING",
+    type: "Safe",
+    category: "goals",
+    isVolatile: false,
+    fixtureId: 1547567
+  }
+}
+
+Argument `odds`: Invalid value provided. Expected String, provided Float.
+    at Nn (C:\Users\TuNeX\Desktop\DAILYWIN AI\server\node_modules\@prisma\client\runtime\library.js:29:1363)
+    at ei.handleRequestError (C:\Users\TuNeX\Desktop\DAILYWIN AI\server\node_modules\@prisma\client\runtime\library.js:121:6911)
+    at ei.handleAndLogRequestError (C:\Users\TuNeX\Desktop\DAILYWIN AI\server\node_modules\@prisma\client\runtime\library.js:121:6593)
+    at ei.request (C:\Users\TuNeX\Desktop\DAILYWIN AI\server\node_modules\@prisma\client\runtime\library.js:121:6300)
+    at async a (C:\Users\TuNeX\Desktop\DAILYWIN AI\server\node_modules\@prisma\client\runtime\library.js:130:9551)
+    at async generateDailyPredictions (file:///C:/Users/TuNeX/Desktop/DAILYWIN%20AI/server/src/utils/aiEngine.js:333:37)
+    at async run (file:///C:/Users/TuNeX/Desktop/DAILYWIN%20AI/server/trigger_predictions.js:52:23) {
+  clientVersion: '6.19.1'
+}
+Γ£à Generated/Found 0 Predictions.

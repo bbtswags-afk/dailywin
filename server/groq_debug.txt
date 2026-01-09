@@ -1,0 +1,116 @@
+≡ƒÜÇ Manually Triggering Prediction Engine (Scraper Mode)...
+≡ƒº╣ FORCE CLEARED PENDING PREDICTIONS.
+TimeAPI failed, trying fallback... The operation was aborted due to timeout
+WorldTimeAPI failed... fetch failed
+ΓÜá∩╕Å Online Time Check Failed. Using System Time.
+≡ƒñû AI Engine Processing for: 2026-01-09
+≡ƒº╣ Cleared stale pending predictions.
+Fetching new fixtures from API...
+TimeAPI failed, trying fallback... The operation was aborted due to timeout
+≡ƒôà Using Online True Date: 2026-01-09T02:44:25.486Z
+≡ƒò╖∩╕Å Scraping Fixtures from LiveScore.com for date: 20260109
+Γ£à Scraped & Mapped 17 Fixtures.
+≡ƒöÄ Found 2 matches in Strict Whitelist.
+
+≡ƒöÄ Processing: Getafe vs Real Sociedad
+   - Fetching Context...
+≡ƒöÄ Searching Free API for Real Data: Getafe vs Real Sociedad
+≡ƒåô FreeAPI: Looking up match for Getafe vs Real Sociedad (LaLiga)
+   -> FreeAPI: Fetched 6 matches in window.
+   -> Found Match ID: 544392 (Teams: 82/92)
+Debug H2H: HomeID=82, AwayID=92. Scanning 18 matches.
+   Sample Match: Rayo Vallecano de Madrid vs Getafe CF (2026-01-02T20:00:00Z)
+   Found 0 H2H matches.
+   -> Γ£à Real H2H/Form Data Acquired via Football-Data.org.
+   - Generating AI Prediction...
+AI Error (Groq): BadRequestError: 400 {"error":{"message":"The model `llama3-70b-8192` has been decommissioned and is no longer supported. Please refer to https://console.groq.com/docs/deprecations for a recommendation on which model to use instead.","type":"invalid_request_error","code":"model_decommissioned"}}
+    at APIError.generate (file:///C:/Users/TuNeX/Desktop/DAILYWIN%20AI/server/node_modules/groq-sdk/error.mjs:36:20)
+    at Groq.makeStatusError (file:///C:/Users/TuNeX/Desktop/DAILYWIN%20AI/server/node_modules/groq-sdk/core.mjs:286:25)
+    at Groq.makeRequest (file:///C:/Users/TuNeX/Desktop/DAILYWIN%20AI/server/node_modules/groq-sdk/core.mjs:332:30)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async generatePrediction (file:///C:/Users/TuNeX/Desktop/DAILYWIN%20AI/server/src/utils/aiEngine.js:104:28)
+    at async generateDailyPredictions (file:///C:/Users/TuNeX/Desktop/DAILYWIN%20AI/server/src/utils/aiEngine.js:315:30)
+    at async run (file:///C:/Users/TuNeX/Desktop/DAILYWIN%20AI/server/trigger_predictions.js:52:23) {
+  status: 400,
+  headers: {
+    'alt-svc': 'h3=":443"; ma=86400',
+    'cache-control': 'private, max-age=0, no-store, no-cache, must-revalidate',
+    'cf-cache-status': 'DYNAMIC',
+    'cf-ray': '9bb097e36bd0f422-LHR',
+    connection: 'keep-alive',
+    'content-length': '276',
+    'content-type': 'application/json',
+    date: 'Fri, 09 Jan 2026 02:44:31 GMT',
+    server: 'cloudflare',
+    'set-cookie': '__cf_bm=3w2rGhXq.vyJOwaJDziLxd.TXWq4anP58p6_fWmvF.U-1767926671-1.0.1.1-TSgk76eRthmBd5qyXO.Lm9iLOu.7GU7VaF6opIqcNl4gmDDpt_rWPNXI4S1muhmfU82UKRLt3C8XLpnEM3jRGeqj9dqDmjr2VfXKJ7p9qHk; path=/; expires=Fri, 09-Jan-26 03:14:31 GMT; domain=.groq.com; HttpOnly; Secure; SameSite=None',
+    'strict-transport-security': 'max-age=15552000',
+    vary: 'Origin',
+    via: '1.1 google',
+    'x-groq-region': 'fra',
+    'x-request-id': 'req_01kega8ahneps827v71z7adtnp'
+  },
+  error: {
+    error: {
+      message: 'The model `llama3-70b-8192` has been decommissioned and is no longer supported. Please refer to https://console.groq.com/docs/deprecations for a recommendation on which model to use instead.',
+      type: 'invalid_request_error',
+      code: 'model_decommissioned'
+    }
+  }
+}
+   - AI Result: Double Chance 1X
+   - Saving to DB...
+   - Saved!
+
+≡ƒöÄ Processing: Eintracht Frankfurt vs Borussia Dortmund
+   - Fetching Context...
+≡ƒöÄ Searching Free API for Real Data: Eintracht Frankfurt vs Borussia Dortmund
+≡ƒåô FreeAPI: Looking up match for Eintracht Frankfurt vs Borussia Dortmund (Bundesliga)
+   -> FreeAPI: Fetched 6 matches in window.
+   -> League Filter Identified: BL1
+   -> Found Match ID: 540543 (Teams: 19/4)
+   -> Global Form Used (ignoring league filter BL1) to capture Cup momentum.
+Debug H2H: HomeID=19, AwayID=4. Scanning 21 matches.
+   Sample Match: Hamburger SV vs Eintracht Frankfurt (2025-12-20T14:30:00Z)
+   Found 0 H2H matches.
+   -> Γ£à Real H2H/Form Data Acquired via Football-Data.org.
+   - Generating AI Prediction...
+AI Error (Groq): BadRequestError: 400 {"error":{"message":"The model `llama3-70b-8192` has been decommissioned and is no longer supported. Please refer to https://console.groq.com/docs/deprecations for a recommendation on which model to use instead.","type":"invalid_request_error","code":"model_decommissioned"}}
+    at APIError.generate (file:///C:/Users/TuNeX/Desktop/DAILYWIN%20AI/server/node_modules/groq-sdk/error.mjs:36:20)
+    at Groq.makeStatusError (file:///C:/Users/TuNeX/Desktop/DAILYWIN%20AI/server/node_modules/groq-sdk/core.mjs:286:25)
+    at Groq.makeRequest (file:///C:/Users/TuNeX/Desktop/DAILYWIN%20AI/server/node_modules/groq-sdk/core.mjs:332:30)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async generatePrediction (file:///C:/Users/TuNeX/Desktop/DAILYWIN%20AI/server/src/utils/aiEngine.js:104:28)
+    at async generateDailyPredictions (file:///C:/Users/TuNeX/Desktop/DAILYWIN%20AI/server/src/utils/aiEngine.js:315:30)
+    at async run (file:///C:/Users/TuNeX/Desktop/DAILYWIN%20AI/server/trigger_predictions.js:52:23) {
+  status: 400,
+  headers: {
+    'alt-svc': 'h3=":443"; ma=86400',
+    'cache-control': 'private, max-age=0, no-store, no-cache, must-revalidate',
+    'cf-cache-status': 'DYNAMIC',
+    'cf-ray': '9bb0982d3bb96415-LHR',
+    connection: 'keep-alive',
+    'content-length': '276',
+    'content-type': 'application/json',
+    date: 'Fri, 09 Jan 2026 02:44:43 GMT',
+    server: 'cloudflare',
+    'set-cookie': '__cf_bm=S1iVERIz42KEiuGNnxuUU.bnY1.1.xN7FCB2.GHrUGI-1767926683-1.0.1.1-T9hgrIy0a4Xnn0Il.YX5Hm6m4V9ZkV8Z2UvhYKem8K.RSDWU_TWrSZT9pmtuIVJAv1iCGNqT5rxKEoeBDatxI1rvetBQpow5d95YGXGff4k; path=/; expires=Fri, 09-Jan-26 03:14:43 GMT; domain=.groq.com; HttpOnly; Secure; SameSite=None',
+    'strict-transport-security': 'max-age=15552000',
+    vary: 'Origin',
+    via: '1.1 google',
+    'x-groq-region': 'fra',
+    'x-request-id': 'req_01kega8p2xfweryhj6fgm8vhhh'
+  },
+  error: {
+    error: {
+      message: 'The model `llama3-70b-8192` has been decommissioned and is no longer supported. Please refer to https://console.groq.com/docs/deprecations for a recommendation on which model to use instead.',
+      type: 'invalid_request_error',
+      code: 'model_decommissioned'
+    }
+  }
+}
+   - AI Result: Double Chance 1X
+   - Saving to DB...
+   - Saved!
+Γ£à Generated/Found 2 Predictions.
+[LaLiga] Getafe vs Real Sociedad -> Double Chance 1X (double)
+[Bundesliga] Eintracht Frankfurt vs Borussia Dortmund -> Double Chance 1X (double)

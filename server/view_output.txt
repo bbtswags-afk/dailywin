@@ -1,0 +1,13 @@
+--- LATEST PREDICTIONS ---
+
+Match: Eintracht Frankfurt vs Borussia Dortmund
+Prediction: Over 2.5 Goals
+Analysis: H2H: N/A (Real). Form: Home DWLLD, Away WDDWW. Style: Balanced.
+Reasoning: Given the home and away goal statistics, with Eintracht Frankfurt scoring 4 and conceding 10 at home, and Borussia Dortmund scoring 9 and conceding 4 away, the total goal count in recent games suggests a high-scoring match. The combined scored and conceded goals (4 + 10 + 9 + 4 = 27) over the last 5 games for both teams indicate a high goal count, thus predicting Over 2.5 Goals is reasonable.
+--------------------------
+
+Match: Getafe vs Real Sociedad
+Prediction: Over 1.5 Goals
+Analysis: H2H: N/A (Real). Form: Home DLLLW, Away DDLLL. Style: Balanced.
+Reasoning: Given the recent form of both teams, with Getafe and Real Sociedad having scored and conceded a significant number of goals in their last few matches, it's reasonable to expect a match with at least 2 goals. Getafe's home form has been inconsistent but they have managed to score, while Real Sociedad's away form has seen them score 5 goals in their last 5 away games, indicating a potential for goals in this match.
+--------------------------

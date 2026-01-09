@@ -1,0 +1,6 @@
+Fetching Borussia Dortmund (ID: 4) last 5 matches...
+[W] 2025-12-19 vs Borussia Mönchengladbach (Bundesliga) Score: 2-0
+[D] 2025-12-14 vs SC Freiburg (Bundesliga) Score: 1-1
+[D] 2025-12-10 vs FK Bodø/Glimt (UEFA Champions League) Score: 2-2
+[W] 2025-12-07 vs TSG 1899 Hoffenheim (Bundesliga) Score: 2-0
+[W] 2025-11-29 vs Bayer 04 Leverkusen (Bundesliga) Score: 1-2

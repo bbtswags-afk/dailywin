@@ -1,0 +1,48 @@
+≡ƒÜÇ Manually Triggering Prediction Engine (Scraper Mode)...
+≡ƒº╣ FORCE CLEARED PENDING PREDICTIONS.
+TimeAPI failed, trying fallback... The operation was aborted due to timeout
+≡ƒñû AI Engine Processing for: 2026-01-09
+≡ƒº╣ Cleared stale pending predictions.
+Fetching new fixtures from API...
+TimeAPI failed, trying fallback... The operation was aborted due to timeout
+WorldTimeAPI failed... fetch failed
+ΓÜá∩╕Å Online Time Check Failed. Using System Time.
+≡ƒôà Using Online True Date: 2026-01-09T02:48:26.183Z
+≡ƒò╖∩╕Å Scraping Fixtures from LiveScore.com for date: 20260109
+Γ£à Scraped & Mapped 17 Fixtures.
+≡ƒöÄ Found 2 matches in Strict Whitelist.
+
+≡ƒöÄ Processing: Getafe vs Real Sociedad
+   - Fetching Context...
+≡ƒöÄ Searching Free API for Real Data: Getafe vs Real Sociedad
+≡ƒåô FreeAPI: Looking up match for Getafe vs Real Sociedad (LaLiga)
+   -> FreeAPI: Fetched 6 matches in window.
+   -> Found Match ID: 544392 (Teams: 82/92)
+Debug H2H: HomeID=82, AwayID=92. Scanning 18 matches.
+   Sample Match: Rayo Vallecano de Madrid vs Getafe CF (2026-01-02T20:00:00Z)
+   Found 0 H2H matches.
+   -> Γ£à Real H2H/Form Data Acquired via Football-Data.org.
+   - Generating AI Prediction...
+   - AI Result: Over 1.5 Goals
+   - Saving to DB...
+   - Saved!
+
+≡ƒöÄ Processing: Eintracht Frankfurt vs Borussia Dortmund
+   - Fetching Context...
+≡ƒöÄ Searching Free API for Real Data: Eintracht Frankfurt vs Borussia Dortmund
+≡ƒåô FreeAPI: Looking up match for Eintracht Frankfurt vs Borussia Dortmund (Bundesliga)
+   -> FreeAPI: Fetched 6 matches in window.
+   -> League Filter Identified: BL1
+   -> Found Match ID: 540543 (Teams: 19/4)
+   -> Global Form Used (ignoring league filter BL1) to capture Cup momentum.
+Debug H2H: HomeID=19, AwayID=4. Scanning 21 matches.
+   Sample Match: Hamburger SV vs Eintracht Frankfurt (2025-12-20T14:30:00Z)
+   Found 0 H2H matches.
+   -> Γ£à Real H2H/Form Data Acquired via Football-Data.org.
+   - Generating AI Prediction...
+   - AI Result: Over 2.5 Goals
+   - Saving to DB...
+   - Saved!
+Γ£à Generated/Found 2 Predictions.
+[Bundesliga] Eintracht Frankfurt vs Borussia Dortmund -> Over 2.5 Goals (goals)
+[LaLiga] Getafe vs Real Sociedad -> Over 1.5 Goals (goals)

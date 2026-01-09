@@ -1,0 +1,51 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                 String   @id @default(uuid())
+  email              String   @unique
+  name               String?
+  password           String
+  role               String   @default("user") // "user", "admin"
+  plan               String   @default("free") // "free", "premium"
+  usageCount         Int      @default(0)
+  lastUsageDate      DateTime @default(now())
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+  resetPasswordToken String?
+  resetPasswordExpires DateTime?
+  
+  // Subscription Fields
+  subscriptionStatus String   @default("inactive") // "active", "inactive", "expired"
+  subscriptionStart  DateTime?
+  subscriptionEnd    DateTime?
+  paymentReference   String?  // Paystack Reference
+}
+
+model Prediction {
+  id          Int      @id @default(autoincrement())
+  date        DateTime @default(now())
+  homeTeam    String
+  awayTeam    String
+  league      String
+  prediction  String
+  odds        String
+  confidence  Int
+  analysis    String   @db.Text
+  reasoning   String   @db.Text
+  result      String?  // WON, LOST, PENDING
+  score       String?
+  type        String   // Safe, Risky, Value
+  category    String
+  isVolatile  Boolean  @default(false)
+  fixtureId   Int?     @unique // For tracking results
+  homeLogo    String?
+  awayLogo    String?
+  createdAt   DateTime @default(now())
+}

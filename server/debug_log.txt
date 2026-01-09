@@ -1,0 +1,43 @@
+🧹 FORCE CLEARED PENDING PREDICTIONS.
+🤖 AI Engine Processing for: 2026-01-09
+🧹 Cleared stale pending predictions.
+Fetching new fixtures from API...
+📅 Using Online True Date: 2026-01-09T02:48:26.183Z
+🕷️ Scraping Fixtures from LiveScore.com for date: 20260109
+✅ Scraped & Mapped 17 Fixtures.
+🔎 Found 2 matches in Strict Whitelist.
+
+🔎 Processing: Getafe vs Real Sociedad
+   - Fetching Context...
+🔎 Searching Free API for Real Data: Getafe vs Real Sociedad
+🆓 FreeAPI: Looking up match for Getafe vs Real Sociedad (LaLiga)
+   -> FreeAPI: Fetched 6 matches in window.
+   -> Found Match ID: 544392 (Teams: 82/92)
+Debug H2H: HomeID=82, AwayID=92. Scanning 18 matches.
+   Sample Match: Rayo Vallecano de Madrid vs Getafe CF (2026-01-02T20:00:00Z)
+   Found 0 H2H matches.
+   -> ✅ Real H2H/Form Data Acquired via Football-Data.org.
+   - Generating AI Prediction...
+   - AI Result: Over 1.5 Goals
+   - Saving to DB...
+   - Saved!
+
+🔎 Processing: Eintracht Frankfurt vs Borussia Dortmund
+   - Fetching Context...
+🔎 Searching Free API for Real Data: Eintracht Frankfurt vs Borussia Dortmund
+🆓 FreeAPI: Looking up match for Eintracht Frankfurt vs Borussia Dortmund (Bundesliga)
+   -> FreeAPI: Fetched 6 matches in window.
+   -> League Filter Identified: BL1
+   -> Found Match ID: 540543 (Teams: 19/4)
+   -> Global Form Used (ignoring league filter BL1) to capture Cup momentum.
+Debug H2H: HomeID=19, AwayID=4. Scanning 21 matches.
+   Sample Match: Hamburger SV vs Eintracht Frankfurt (2025-12-20T14:30:00Z)
+   Found 0 H2H matches.
+   -> ✅ Real H2H/Form Data Acquired via Football-Data.org.
+   - Generating AI Prediction...
+   - AI Result: Over 2.5 Goals
+   - Saving to DB...
+   - Saved!
+✅ Generated/Found 2 Predictions.
+[Bundesliga] Eintracht Frankfurt vs Borussia Dortmund -> Over 2.5 Goals (goals)
+[LaLiga] Getafe vs Real Sociedad -> Over 1.5 Goals (goals)

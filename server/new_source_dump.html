@@ -1,0 +1,206 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SoccerStats - Free Football Statistics, Analysis and Result</title>
+    <meta name="robots" content="nofollow, noindex, max-snippet:-1, max-video-preview:-1, max-image-preview:large"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="https://www.soccerstats.com/apple-touch-icon.png" type="image/x-icon"> 
+    <style>
+    body {
+        margin: 0;
+        background: #fff;
+    }
+    iframe#main-iframe {
+        width: 100%;
+        height: 100vh;
+        display:block;
+        margin: auto;
+        position: fixed;
+    }
+    .banner-ngang {
+        position: fixed;
+        left: 50%;  
+        transform:translateX(-50%); 
+        bottom: 0;
+        display: flex;
+    }
+    .ngang-mobi{
+        display: none;
+    }
+    .banner-sidebar {
+        position: fixed;
+        left: 0;
+        top: 50%;
+        transform:translateY(-50%);
+        display: flex;
+        flex-direction: column;
+    }
+    .banner-sidebar.banner-right {
+        right: 0;
+        left: auto;
+        padding-left: 17px;
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        box-sizing: border-box;
+        width: 184px;
+        z-index: 1;
+        top: 0;
+        transform: inherit;
+    }
+
+    
+    @media only screen and (max-width: 1000px) {
+        iframe#main-iframe {
+            width: 100vw;
+        }
+        .banner-sidebar {
+            display: none!important;
+        }
+    }
+    @media only screen and (max-width: 728px) {
+
+        .banner-ngang {
+            display: none;
+        }
+        .ngang-mobi{
+            display: block;
+        }
+    }
+    .banner-sidebar.banner-right iframe {
+        z-index: 2;
+    }
+
+    .banner-sidebar button {
+        z-index: 2;
+    }
+    </style>
+</head>
+<body>
+
+    <div class="banner-sidebar banner_wrapper banner-right"> 
+         <script type="text/javascript">
+         atOptions = {
+            'key' : 'f9dab128c1e1b473769c42312f8331f1',
+            'format' : 'iframe',
+            'height' : 300,
+            'width' : 160,
+            'params' : {}
+        };
+        </script>
+        <script type="text/javascript" src="//philosophydill.com/98346e980bd59fd2dab1f7f85353ea38/invoke.js"></script>
+    </div>
+
+    <iframe id="main-iframe" src="https://www.soccerstats.com/" frameborder="0" allowfullscreen></iframe>
+
+<div class="banner-ngang banner_wrapper ngang-pc"> 
+  <script type="text/javascript">
+    atOptions = {
+        'key' : 'f58e06fd14131d1280e032d63b6ac5fa',
+        'format' : 'iframe',
+        'height' : 90,
+        'width' : 728,
+        'params' : {}
+    };
+</script>
+<script type="text/javascript" src="//philosophydill.com/f58e06fd14131d1280e032d63b6ac5fa/invoke.js"></script>
+</div>
+
+<div class="banner-ngang banner_wrapper ngang-mobi"> 
+        
+ <script type="text/javascript">
+    atOptions = {
+        'key' : 'c7c5b2c07a715e3c285e91ff6c76c66e',
+        'format' : 'iframe',
+        'height' : 50,
+        'width' : 320,
+        'params' : {}
+    };
+</script>
+<script type="text/javascript" src="//philosophydill.com/c7c5b2c07a715e3c285e91ff6c76c66e/invoke.js"></script>
+</div>
+
+<div class="banner-sidebar banner_wrapper banner-left"> 
+<script type="text/javascript">
+    atOptions = {
+        'key' : '0ed246bfcc3923203dd5c94dd41b37ec',
+        'format' : 'iframe',
+        'height' : 600,
+        'width' : 160,
+        'params' : {}
+    };
+</script>
+<script type="text/javascript" src="//philosophydill.com/0ed246bfcc3923203dd5c94dd41b37ec/invoke.js"></script>
+</div>
+
+<script type='text/javascript' src='//philosophydill.com/b9/41/ea/b941ea7d7a73567acf1de16134e283ac.js'></script>
+
+<script>
+        
+        var bannerWrappers = document.querySelectorAll('.banner_wrapper');
+
+        
+        bannerWrappers.forEach(function(bannerWrapper) {
+        
+        var xButton = document.createElement('button');
+
+        
+        xButton.innerHTML = '&times;';
+
+        
+        xButton.style.position = 'absolute';
+        xButton.style.top = '-5px'; 
+        xButton.style.right = '-5px'; 
+        xButton.style.padding = '0 5px'; 
+        xButton.style.border = 'none';
+        xButton.style.backgroundColor = '#ffffff'; 
+        xButton.style.color = '#000'; 
+        xButton.style.fontWeight = 'bold';
+        xButton.style.fontSize = '25px'; 
+        xButton.style.lineHeight = '24px'; 
+        xButton.style.cursor = 'pointer';
+        xButton.style.boxShadow = 'rgb(0, 0, 0) 0px 2px 4px';
+        xButton.style.borderRadius = '2px';
+        xButton.style.transition = 'background-color 0.3s'; 
+
+        
+        xButton.style.display = 'none';
+        setTimeout(function() {
+            xButton.style.display = 'block';
+        }, 3000);
+
+        
+        xButton.addEventListener('mouseover', function() {
+        xButton.style.backgroundColor = '#e0e0e0'; 
+    });
+
+        xButton.addEventListener('mouseout', function() {
+        xButton.style.backgroundColor = '#ffffff'; 
+    });
+
+    
+    xButton.addEventListener('click', function() {
+    
+    var iframes = bannerWrapper.querySelectorAll('iframe');
+    iframes.forEach(function(iframe) {
+        iframe.style.display = 'none';
+    });
+
+    
+    xButton.style.display = 'none';
+    });
+
+
+        
+        bannerWrapper.appendChild(xButton);
+    });
+</script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015" integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ==" data-cf-beacon='{"version":"2024.11.0","token":"ad7f6dffbe024a2baf98c643a5819341","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015" integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ==" data-cf-beacon='{"version":"2024.11.0","token":"e347b1084a984cd2b9af75ad8344e05e","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+</body>
+</html>
+
+

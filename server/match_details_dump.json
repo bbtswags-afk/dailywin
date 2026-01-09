@@ -1,0 +1,298 @@
+{
+  "Eid": "1529025",
+  "Pids": {
+    "1": "4813576",
+    "6": "61300919",
+    "8": "1529025",
+    "28": "1218673033",
+    "29": "1529025",
+    "33": "396bo5t5fzkfqcmcj0rlhtez8",
+    "36": "396bo5t5fzkfqcmcj0rlhtez8",
+    "37": "2026-01-08-20-00-00-Arsenal-Liverpool",
+    "101": "1529025",
+    "112": "SBTE_2_1024044036"
+  },
+  "Sids": {
+    "1": "900326",
+    "6": "95139",
+    "8": "21997",
+    "28": "1218672808",
+    "30": "855adaf5-49f3-4887-b304-dfb8be78fdbb",
+    "33": "52mas07a9lsy28lwm6egrtqfo",
+    "36": "2kwbbcootiqqgmrzs6o5inle5",
+    "37": "50255",
+    "112": "SBTC3_40253"
+  },
+  "Media": {
+    "8": [
+      {
+        "type": "TwitterHighlights",
+        "allowedCountries": [
+          "GB"
+        ]
+      }
+    ],
+    "29": [
+      {
+        "streamhls": "https://livesportradio.com/global/reeng5/playlist.m3u8",
+        "deniedCountries": [],
+        "ageRestricted": "false",
+        "beforeStartTime": 5,
+        "afterEndTime": 15
+      }
+    ],
+    "33": [
+      {
+        "type": "liveactions",
+        "deniedCountries": [],
+        "entryId": "51r6ph2woavlbbpk8f29nynf8/2kwbbcootiqqgmrzs6o5inle5/396bo5t5fzkfqcmcj0rlhtez8"
+      }
+    ],
+    "37": [
+      {
+        "type": "Highlight",
+        "thumbnail": "fb3714fc-6ee4-41ac-a4fc-3970abcd7b57_0.jpg",
+        "allowedCountries": [
+          "CA"
+        ],
+        "entryId": "69600d99d64941e2ab16c327",
+        "creationTimePeriod": "IN-GAME"
+      },
+      {
+        "type": "Highlight",
+        "thumbnail": "e98b5749-bec3-4a67-83c0-923191203ec5_0.jpg",
+        "allowedCountries": [
+          "ES"
+        ],
+        "entryId": "69600dc74542c5643dd60c3f",
+        "storyUrl": "https://stories.dazn.com/es-es/69600dc74542c5643dd60c3f.html?utm_source=Livescore_Syndication",
+        "creationTimePeriod": "IN-GAME"
+      }
+    ],
+    "112": [
+      {
+        "eventId": "TNT",
+        "provider": "ABELSON",
+        "type": "TV_CHANNEL",
+        "allowedCountries": [
+          "MX"
+        ]
+      },
+      {
+        "eventId": "Diema Sport 2",
+        "provider": "ABELSON",
+        "type": "TV_CHANNEL",
+        "allowedCountries": [
+          "BG"
+        ]
+      },
+      {
+        "eventId": "HBO Max",
+        "provider": "ABELSON",
+        "type": "TV_CHANNEL",
+        "allowedCountries": [
+          "MX"
+        ]
+      },
+      {
+        "eventId": "Sky Sports Main Event",
+        "provider": "ABELSON",
+        "type": "TV_CHANNEL",
+        "thumbnail": "skysports.png",
+        "allowedCountries": [
+          "IE",
+          "GB"
+        ]
+      },
+      {
+        "eventId": "Sky Sports Premier League",
+        "provider": "ABELSON",
+        "type": "TV_CHANNEL",
+        "thumbnail": "skysports.png",
+        "allowedCountries": [
+          "IE",
+          "GB"
+        ]
+      }
+    ]
+  },
+  "Tr1": "0",
+  "Tr2": "0",
+  "Trh1": "0",
+  "Trh2": "0",
+  "Tr1OR": "0",
+  "Tr2OR": "0",
+  "T1": [
+    {
+      "Nm": "Arsenal",
+      "ID": "2773",
+      "Img": "enet/9825.png",
+      "NewsTag": "/team/arsenal-2021020913320920836-97/",
+      "Abr": "ARS",
+      "tbd": 0,
+      "Gd": 1,
+      "Pids": {
+        "1": [
+          "9825"
+        ],
+        "6": [
+          "42"
+        ],
+        "8": [
+          "2773"
+        ],
+        "12": [
+          "SBTP_1_248"
+        ],
+        "15": [
+          "4"
+        ],
+        "28": [
+          "23429"
+        ],
+        "30": [
+          "40c7eb19-93d7-4c1a-a8b2-1cfc40bc2454"
+        ],
+        "33": [
+          "4dsgumo7d4zupm2ugsvm4zm4d"
+        ],
+        "36": [
+          "4dsgumo7d4zupm2ugsvm4zm4d"
+        ],
+        "37": [
+          "SportsRadar-sr:competitor:42"
+        ],
+        "112": [
+          "SBTP_2_1000000085"
+        ]
+      },
+      "CoNm": "England",
+      "CoId": "ENG",
+      "HasVideo": true,
+      "TO": 15,
+      "tsImg": "arsenal.png",
+      "firstColor": "EF0107",
+      "secondColor": "FDFDFD",
+      "aG": 0,
+      "Spid": 1
+    }
+  ],
+  "T2": [
+    {
+      "Nm": "Liverpool",
+      "ID": "3340",
+      "Img": "teambadge/liverpool-2024.png",
+      "NewsTag": "/team/liverpool-2021020913320920836-92/",
+      "Abr": "LIV",
+      "tbd": 0,
+      "Gd": 1,
+      "Pids": {
+        "1": [
+          "8650"
+        ],
+        "6": [
+          "44"
+        ],
+        "8": [
+          "3340"
+        ],
+        "12": [
+          "SBTP_1_246"
+        ],
+        "15": [
+          "1"
+        ],
+        "28": [
+          "29925"
+        ],
+        "30": [
+          "ba81865d-adc2-4d7f-8df0-01eb14304298"
+        ],
+        "33": [
+          "c8h9bw1l82s06h77xxrelzhur"
+        ],
+        "36": [
+          "c8h9bw1l82s06h77xxrelzhur"
+        ],
+        "37": [
+          "SportsRadar-sr:competitor:44"
+        ],
+        "112": [
+          "SBTP_2_1000000087"
+        ]
+      },
+      "CoNm": "England",
+      "CoId": "ENG",
+      "HasVideo": true,
+      "TO": 15,
+      "tsImg": "liverpool.png",
+      "firstColor": "C8102E",
+      "secondColor": "FDFDFD",
+      "aG": 0,
+      "Spid": 1
+    }
+  ],
+  "Venue": {
+    "id": "513",
+    "Vnm": "Emirates Stadium",
+    "Vneut": 0,
+    "VImg": "emirates-stadium---arsenal.jpg"
+  },
+  "Eps": "55'",
+  "Esid": 3,
+  "Epr": 1,
+  "Ecov": 0,
+  "ErnInf": "21",
+  "Et": 1,
+  "Esd": 20260108200000,
+  "Etm": {
+    "ATm": 1767906737683,
+    "RTm": 3240000
+  },
+  "LuUT": 20260108200020,
+  "Eact": 1,
+  "EO": 908051311,
+  "EOX": 908051311,
+  "LuC": 1,
+  "Ehid": 0,
+  "Spid": 1,
+  "Stg": {
+    "Sid": "21997",
+    "Snm": "Premier League",
+    "Scd": "premier-league",
+    "badgeUrl": "premier-league-2024.png",
+    "firstColor": "3F1152",
+    "Cid": "34",
+    "Cnm": "England",
+    "CnmT": "england",
+    "Csnm": "England",
+    "Ccd": "england",
+    "CompId": "65",
+    "CompN": "Premier League",
+    "CompD": "England",
+    "CompUrlName": "premier-league",
+    "CompST": "England",
+    "Scu": 0,
+    "Sds": "Premier League",
+    "Chi": 0,
+    "Shi": 0,
+    "Ccdiso": "ENG",
+    "Sdn": "Premier League",
+    "Feed": {
+      "Id": "cp:65",
+      "Items": [
+        "cp:65-a:1767898658250",
+        "cp:65-a:1767906702051",
+        "cp:65-a:2662373",
+        "cp:65-a:2662170",
+        "cp:65-a:2662077"
+      ]
+    }
+  },
+  "Pid": 8,
+  "Eloff": 0,
+  "Incs-s": {
+    "1": [],
+    "2": []
+  }
+}
