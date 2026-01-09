@@ -27,6 +27,10 @@ const Dashboard = () => {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
 
+    const [showCurrentPassword, setShowCurrentPassword] = useState(false);
+    const [showNewPassword, setShowNewPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
     const [message, setMessage] = useState('');
     const [isSaving, setIsSaving] = useState(false);
 
@@ -181,36 +185,67 @@ const Dashboard = () => {
                                     />
                                 </div>
 
+                                <div>
+                                    <label className="block text-sm font-medium text-muted-foreground mb-1">Email Address</label>
+                                    <input
+                                        type="email"
+                                        value={user?.email || ''}
+                                        readOnly
+                                        className="w-full p-3 rounded-lg bg-white/5 border border-white/10 text-gray-400 cursor-not-allowed focus:outline-none"
+                                    />
+                                </div>
+
                                 <div className="border-t border-white/10 pt-4 mt-4">
                                     <h3 className="text-sm font-semibold text-white mb-3">Change Password</h3>
 
                                     <div className="space-y-3">
-                                        <div>
+                                        <div className="relative">
                                             <input
-                                                type="password"
+                                                type={showCurrentPassword ? "text" : "password"}
                                                 value={currentPassword}
                                                 onChange={(e) => setCurrentPassword(e.target.value)}
-                                                className="w-full p-3 rounded-lg bg-background border border-white/10 text-white focus:border-primary focus:outline-none"
+                                                className="w-full p-3 rounded-lg bg-background border border-white/10 text-white focus:border-primary focus:outline-none pr-10"
                                                 placeholder="Current Password"
                                             />
+                                            <button
+                                                type="button"
+                                                onClick={() => setShowCurrentPassword(!showCurrentPassword)}
+                                                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white"
+                                            >
+                                                {showCurrentPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                                            </button>
                                         </div>
-                                        <div>
+                                        <div className="relative">
                                             <input
-                                                type="password"
+                                                type={showNewPassword ? "text" : "password"}
                                                 value={password}
                                                 onChange={(e) => setPassword(e.target.value)}
-                                                className="w-full p-3 rounded-lg bg-background border border-white/10 text-white focus:border-primary focus:outline-none"
+                                                className="w-full p-3 rounded-lg bg-background border border-white/10 text-white focus:border-primary focus:outline-none pr-10"
                                                 placeholder="New Password (min 8 chars)"
                                             />
+                                            <button
+                                                type="button"
+                                                onClick={() => setShowNewPassword(!showNewPassword)}
+                                                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white"
+                                            >
+                                                {showNewPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                                            </button>
                                         </div>
-                                        <div>
+                                        <div className="relative">
                                             <input
-                                                type="password"
+                                                type={showConfirmPassword ? "text" : "password"}
                                                 value={confirmPassword}
                                                 onChange={(e) => setConfirmPassword(e.target.value)}
-                                                className="w-full p-3 rounded-lg bg-background border border-white/10 text-white focus:border-primary focus:outline-none"
+                                                className="w-full p-3 rounded-lg bg-background border border-white/10 text-white focus:border-primary focus:outline-none pr-10"
                                                 placeholder="Confirm New Password"
                                             />
+                                            <button
+                                                type="button"
+                                                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                                                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white"
+                                            >
+                                                {showConfirmPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
