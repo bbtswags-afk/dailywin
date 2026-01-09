@@ -47,40 +47,59 @@ const LiveScores = () => {
 
             <div className="space-y-4">
                 {scores.map((match) => (
-                    <div key={match.fixture.id} className="bg-card/40 border border-white/5 rounded-xl p-4 flex items-center justify-between transition-all hover:bg-card/60">
-                        <div className="flex items-center gap-4 w-1/3">
-                            <span className="text-xs text-muted-foreground w-12 text-center">
+                    <div key={match.fixture.id} className="bg-card/40 border border-white/5 rounded-xl p-4 flex flex-col md:flex-row items-center justify-between gap-4 transition-all hover:bg-card/60">
+                        {/* Time & Teams */}
+                        <div className="flex items-center justify-between w-full md:w-5/12 gap-4">
+                            <span className="text-xs font-bold w-12 text-center shrink-0">
                                 {match.fixture.status.short === 'LIVE' || match.fixture.status.short === '1H' || match.fixture.status.short === '2H' ? (
-                                    <span className="text-red-500 font-bold animate-pulse">{match.fixture.status.elapsed}'</span>
-                                ) : match.fixture.status.short}
+                                    <span className="text-red-500 animate-pulse">{match.fixture.status.elapsed}''</span>
+                                ) : (
+                                    <span className="text-muted-foreground">{match.fixture.status.short}</span>
+                                )}
                             </span>
-                            <div className="flex flex-col">
-                                <span className="font-bold text-white flex items-center gap-2">
-                                    <img src={match.teams.home.logo} className="w-4 h-4" alt="" />
-                                    {match.teams.home.name}
+
+                            <div className="flex flex-col flex-1 pl-2 border-l border-white/5">
+                                <span className="font-bold text-white text-sm md:text-base flex items-center justify-between gap-2 py-1">
+                                    <div className="flex items-center gap-2">
+                                        <img src={match.teams.home.logo} className="w-5 h-5 object-contain" alt="" />
+                                        <span className="truncate">{match.teams.home.name}</span>
+                                    </div>
+                                    <span className="font-mono">{match.goals.home ?? 0}</span>
                                 </span>
-                                <span className="font-bold text-white flex items-center gap-2">
-                                    <img src={match.teams.away.logo} className="w-4 h-4" alt="" />
-                                    {match.teams.away.name}
+                                <span className="font-bold text-white text-sm md:text-base flex items-center justify-between gap-2 py-1">
+                                    <div className="flex items-center gap-2">
+                                        <img src={match.teams.away.logo} className="w-5 h-5 object-contain" alt="" />
+                                        <span className="truncate">{match.teams.away.name}</span>
+                                    </div>
+                                    <span className="font-mono">{match.goals.away ?? 0}</span>
                                 </span>
                             </div>
                         </div>
 
-                        <div className="flex flex-col items-center justify-center w-1/3">
+                        {/* Middle Status/Score (Desktop Only - Mobile shows formatted score above) */}
+                        <div className="hidden md:flex flex-col items-center justify-center w-2/12">
                             {match.fixture.status.short === 'NS' ? (
-                                <span className="text-xl font-bold text-muted-foreground">
+                                <span className="text-lg font-bold text-muted-foreground">
                                     {new Date(match.fixture.date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                                 </span>
                             ) : (
-                                <div className="text-2xl font-black text-white tracking-widest bg-black/20 px-4 py-1 rounded-lg border border-white/5">
+                                <div className="text-xl font-black text-white bg-black/20 px-3 py-1 rounded border border-white/5">
                                     {match.goals.home ?? 0} - {match.goals.away ?? 0}
                                 </div>
                             )}
-                            <span className="text-xs text-muted-foreground mt-1">{match.league.name}</span>
                         </div>
 
-                        <div className="w-1/3 text-right">
-
+                        {/* League Info */}
+                        <div className="w-full md:w-4/12 flex items-center justify-between md:justify-end gap-2 text-xs text-muted-foreground border-t md:border-t-0 border-white/5 pt-2 md:pt-0 mt-2 md:mt-0">
+                            <div className="flex items-center gap-2">
+                                <img src={match.league.logo} className="w-4 h-4 object-contain opacity-70" alt="" />
+                                <span>{match.league.name}</span>
+                            </div>
+                            {match.fixture.status.short === 'NS' && (
+                                <span className="md:hidden text-white font-mono">
+                                    {new Date(match.fixture.date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                                </span>
+                            )}
                         </div>
                     </div>
                 ))}
