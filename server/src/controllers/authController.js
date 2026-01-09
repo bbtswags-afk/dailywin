@@ -38,14 +38,13 @@ export const registerUser = async (req, res) => {
         });
 
         if (user) {
-            // Send Welcome Email
-            console.log("👤 User Created. Sending Welcome Email...");
-            try {
-                await sendWelcomeEmail(user.email);
-                console.log("✅ Welcome Email Sent Successfully.");
-            } catch (emailErr) {
-                console.error("⚠️ Welcome Email Failed (Non-blocking):", emailErr.message);
-            }
+            // Send Welcome Email (Non-blocking / Fire-and-Forget)
+            console.log("👤 User Created. Sending Welcome Email (Background)...");
+            sendWelcomeEmail(user.email).then(() => {
+                console.log("✅ Welcome Email Sent (Async).");
+            }).catch(emailErr => {
+                console.error("⚠️ Welcome Email Failed (Async):", emailErr.message);
+            });
 
             res.status(201).json({
                 id: user.id,
