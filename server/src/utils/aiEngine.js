@@ -307,7 +307,31 @@ export const generateDailyPredictions = async () => {
             return match;
         });
 
-        console.log(`🔎 Found ${selectedFixtures.length} matches in Strict Whitelist.`);
+        // PRIORITY SORTING: Put major competitions first
+        const PRIORITY_ORDER = [
+            'Champions League', 'Premier League', 'LaLiga', 'Bundesliga', 'Serie A', 'Ligue 1',
+            'FA Cup', 'Copa del Rey', 'Coupe de France'
+        ];
+
+        selectedFixtures.sort((a, b) => {
+            const aName = a.league.name;
+            const bName = b.league.name;
+            const aIdx = PRIORITY_ORDER.findIndex(p => aName.includes(p));
+            const bIdx = PRIORITY_ORDER.findIndex(p => bName.includes(p));
+            // If both found, lower index = higher priority (-1 comes last)
+            if (aIdx !== -1 && bIdx !== -1) return aIdx - bIdx;
+            if (aIdx !== -1) return -1;
+            if (bIdx !== -1) return 1;
+            return 0;
+        });
+
+        // LIMIT to Top 12 Matches to prevent TImeouts (12 * 5s = 60s)
+        if (selectedFixtures.length > 12) {
+            console.log(`⚠️ Too many matches (${selectedFixtures.length}). Limiting to Top 12 to avoid timeout.`);
+            selectedFixtures = selectedFixtures.slice(0, 12);
+        }
+
+        console.log(`🔎 Processing Top ${selectedFixtures.length} matches.`);
 
         if (selectedFixtures.length === 0) {
             console.log("❌ No Strict Whitelist matches found today. Returning empty.");
