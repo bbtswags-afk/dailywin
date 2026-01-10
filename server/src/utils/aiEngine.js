@@ -81,18 +81,23 @@ const generatePrediction = async (homeTeam, awayTeam, league, context) => {
         Context: ${context.volatilityContext}.
 
         Task: Run a debate between The Scout and The Accountant.
-        - If Scout sees a Win but Accountant sees risk (e.g. high conceded goals), COMPROMISE on "Over 1.5 Goals" or "Double Chance".
-        - Only predict "Home Win" or "Away Win" if BOTH analysts agree it is safe.
-        - If the match is too unpredictable, select "Over 1.5 Goals" as a safety net.
+        - You MUST prioritize SAVETY over high odds. 
+        - Avoid "Over 2.5 Goals" unless it is 99% certain (e.g. Manchester City vs 4th tier team), otherwise prefer "Over 1.5 Goals".
+        - If "Home Win" is risky, use "Double Chance 1X" or "Over 0.5 Goals" for the home team.
 
-        Allowed Markets: 
-        - "Over 1.5 Goals" (Safe)
-        - "Over 2.5 Goals" (Value)
-        - "Home Win" (Straight)
-        - "Away Win" (Straight)
-        - "Double Chance 1X" (Safe)
-        - "Double Chance X2" (Safe)
-        - "Over 8.5 Corners" (If stats support it)
+        Allowed Markets (Prioritized by Safety): 
+        - "Over 1.5 Goals" (Very Safe - Standard)
+        - "Over 0.5 Goals" (Ultra Safe)
+        - "Double Chance 1X" (Home Win or Draw - Safe)
+        - "Double Chance X2" (Away Win or Draw - Safe)
+        - "Double Chance 12" (Any Winner - Safe)
+        - "Home Win" (Only if clear favorite)
+        - "Away Win" (Only if clear favorite)
+        - "Over 5.5 Corners" (Safe)
+        - "Over 7.5 Corners" (Moderate)
+        - "Home Team Over 0.5 Goals" (Safe)
+        - "Away Team Over 0.5 Goals" (Safe)
+        - "Under 4.5 Goals" (Safe for defensive games)
 
         Output JSON ONLY:
         {
@@ -101,7 +106,7 @@ const generatePrediction = async (homeTeam, awayTeam, league, context) => {
             "reasoning": "Briefly summarize the debate (e.g. 'Scout liked Home Win, but Accountant feared the defense, so we settled on Over 1.5').",
             "type": "Safe" | "Risky" | "Value",
             "isVolatile": boolean,
-            "odds": "Decimal Odds (e.g. 1.50, 2.10)"
+            "odds": "Decimal Odds (e.g. 1.30, 1.50)"
         }
         `;
 
