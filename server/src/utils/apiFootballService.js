@@ -1,4 +1,3 @@
-```javascript
 import fetch from 'node-fetch';
 import { getTrueDate } from "./timeService.js";
 
@@ -30,20 +29,20 @@ const ensureDailyCache = async () => {
             return; // Cache hit
         }
 
-        console.log(`🌍 RapidAPI: Pre - fetching ALL fixtures for ${ dateStr }...`);
-        const url = `${ BASE_URL }/fixtures?date=${dateStr}`;
-const res = await fetch(url, { headers });
-const data = await res.json();
+        console.log(`🌍 RapidAPI: Pre - fetching ALL fixtures for ${dateStr}...`);
+        const url = `${BASE_URL}/fixtures?date=${dateStr}`;
+        const res = await fetch(url, { headers });
+        const data = await res.json();
 
-if (data.response) {
-    TODAYS_FIXTURES_CACHE = data.response;
-    CACHE_DATE = dateStr;
-    console.log(`   -> Cached ${data.response.length} matches from RapidAPI.`);
-}
+        if (data.response) {
+            TODAYS_FIXTURES_CACHE = data.response;
+            CACHE_DATE = dateStr;
+            console.log(`   -> Cached ${data.response.length} matches from RapidAPI.`);
+        }
 
     } catch (e) {
-    console.error("RapidAPI Cache Error:", e.message);
-}
+        console.error("RapidAPI Cache Error:", e.message);
+    }
 };
 
 /**
