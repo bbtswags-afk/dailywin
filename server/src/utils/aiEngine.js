@@ -212,7 +212,9 @@ export const generateDailyPredictions = async () => {
                 type: p.type,
                 isVolatile: p.isVolatile,
                 time: p.date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-                category: p.category
+                category: p.category,
+                homeLogo: p.homeLogo,
+                awayLogo: p.awayLogo
             }));
         }
 
@@ -354,7 +356,9 @@ export const generateDailyPredictions = async () => {
             type: p.type,
             isVolatile: p.isVolatile,
             time: p.date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-            category: p.category
+            category: p.category,
+            homeLogo: p.homeLogo,
+            awayLogo: p.awayLogo
         }));
 
     } catch (error) {
