@@ -53,13 +53,7 @@ const getMatchContext = async (game) => {
 
 // ... (Inside generateDailyPredictions loop) ...
 
-const context = await getMatchContext(fixture);
 
-// STRICT CHECK: If no context (no real data), SKIP.
-if (!context) {
-    console.log(`   - Skipped: No Real Data available.`);
-    continue;
-}
 
 // 5. Generate with AI
 const prediction = await generatePrediction(context, homeTeam, awayTeam, league);
