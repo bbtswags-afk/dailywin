@@ -214,7 +214,11 @@ export const generateDailyPredictions = async () => {
                 time: p.date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
                 category: p.category,
                 homeLogo: p.homeLogo,
-                awayLogo: p.awayLogo
+                awayLogo: p.awayLogo,
+                form: {
+                    home: typeof p.homeForm === 'string' ? p.homeForm.split('') : [],
+                    away: typeof p.awayForm === 'string' ? p.awayForm.split('') : []
+                }
             }));
         }
 
@@ -320,6 +324,10 @@ export const generateDailyPredictions = async () => {
                         result: 'PENDING',
                         homeLogo: context.homeLogo || fixture.teams.home.logo,
                         awayLogo: context.awayLogo || fixture.teams.away.logo,
+                        homeLogo: context.homeLogo || fixture.teams.home.logo,
+                        awayLogo: context.awayLogo || fixture.teams.away.logo,
+                        homeForm: context.homeForm,
+                        awayForm: context.awayForm,
                         fixtureId: parseInt(fixture.fixture.id)
                     }
                 });
@@ -358,7 +366,11 @@ export const generateDailyPredictions = async () => {
             time: p.date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
             category: p.category,
             homeLogo: p.homeLogo,
-            awayLogo: p.awayLogo
+            awayLogo: p.awayLogo,
+            form: {
+                home: typeof p.homeForm === 'string' ? p.homeForm.split('') : [],
+                away: typeof p.awayForm === 'string' ? p.awayForm.split('') : []
+            }
         }));
 
     } catch (error) {
