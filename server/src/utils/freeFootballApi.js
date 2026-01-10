@@ -125,15 +125,23 @@ const getDetailH2H = async (homeId, awayId, leagueCode) => {
     const calcStats = (matches, teamId) => {
         let scored = 0;
         let conceded = 0;
-        const form = matches.map(m => {
+        const detailed = matches.map(m => {
             const isHome = m.homeTeam.id === teamId;
+            const oppName = isHome ? m.awayTeam.shortName : m.homeTeam.shortName;
             const goalsFor = isHome ? m.score.fullTime.home : m.score.fullTime.away;
             const goalsAgainst = isHome ? m.score.fullTime.away : m.score.fullTime.home;
             scored += goalsFor; // Accumulate goals
             conceded += goalsAgainst;
-            return labelResult(m, teamId);
-        }).join('');
-        return { form, scored, conceded, matchCount: matches.length };
+
+            const resultChar = labelResult(m, teamId); // W, D, L
+            const venue = isHome ? "vs" : "@";
+
+            // Format: "W 2-1 vs ManUtd" or "L 0-3 @ Arsenal"
+            return `${resultChar} ${goalsFor}-${goalsAgainst} ${venue} ${oppName}`;
+        });
+
+        const form = matches.map(m => labelResult(m, teamId)).join('');
+        return { form, scored, conceded, matchCount: matches.length, detailed };
     };
 
     const homeStats = calcStats(homeRecent, homeId);
@@ -143,8 +151,8 @@ const getDetailH2H = async (homeId, awayId, leagueCode) => {
         h2h: h2hStrings || "N/A",
         homeForm: homeStats.form,
         awayForm: awayStats.form,
-        homeStats, // Enriched Context
-        awayStats
+        homeStats: { ...homeStats, detailed: homeStats.detailed },
+        awayStats: { ...awayStats, detailed: awayStats.detailed }
     };
 };
 

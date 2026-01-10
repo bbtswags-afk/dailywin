@@ -68,14 +68,15 @@ const generatePrediction = async (homeTeam, awayTeam, league, context) => {
         Match: ${homeTeam} vs ${awayTeam} (${league}).
         
         Data (Last 5 Games):
-        - Home Form: ${context.homeForm}
+        - Home Form: ${context.homeForm} (${hStats.detailed ? hStats.detailed.join(', ') : 'N/A'})
         - Home Goals: Scored ${hStats.scored}, Conceded ${hStats.conceded}
-        - Away Form: ${context.awayForm}
+        - Away Form: ${context.awayForm} (${aStats.detailed ? aStats.detailed.join(', ') : 'N/A'})
         - Away Goals: Scored ${aStats.scored}, Conceded ${aStats.conceded}
         - H2H: ${context.h2h}
         Context: ${context.volatilityContext}.
 
-        Task: Run a debate between The Scout and The Accountant.
+        Task: Analyze the SCORE LINES of the last 5 games. How did they win/lose? (e.g. tight 1-0 or dominant 4-0?).
+        Run a debate between The Scout and The Accountant.
         - You MUST prioritize SAFETY but also DIVERSITY. Do not just default to "Over 1.5 Goals".
         - If a team is a strong favorite but might draw, use "Double Chance 1X" or "12".
         - If both teams score often but result is unclear, use "Over 1.5 Goals" or "Over 0.5 Goals".
