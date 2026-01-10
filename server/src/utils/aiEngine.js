@@ -381,7 +381,6 @@ export const generateDailyPredictions = async () => {
         const newPredictions = [];
 
         // 4. Generate Predictions
-        // 4. Generate Predictions
         for (const fixture of selectedFixtures) {
             try {
                 const homeTeam = fixture.teams.home.name;
@@ -394,7 +393,10 @@ export const generateDailyPredictions = async () => {
                 // 5. Generate with AI
                 const prediction = await generatePrediction(context, homeTeam, awayTeam, league);
 
-                console.log(`   - AI Result: ${prediction.market}`);
+                // FIX: Ensure we use the correct key (Groq returns 'prediction', not 'market')
+                const marketValue = prediction.prediction || prediction.market || "Double Chance 1X";
+
+                console.log(`   - AI Result: ${marketValue}`);
 
                 // 6. Save to DB
                 console.log(`   - Saving to DB...`);
@@ -402,10 +404,11 @@ export const generateDailyPredictions = async () => {
                 const isVolatile = (context.homeForm.match(/L/g) || []).length > 2 || (context.awayForm.match(/L/g) || []).length > 2;
 
                 let category = "Safe";
-                if (prediction.market.includes("Win")) category = "Straight Wins";
-                if (prediction.market.includes("Corner")) category = "Corners";
-                if (prediction.market.includes("Double")) category = "Double Chance";
-                if (prediction.market.includes("Over")) category = "Goals";
+                if (marketValue.includes("Win")) category = "Straight Wins";
+                if (marketValue.includes("Corner")) category = "Corners";
+                if (marketValue.includes("Double")) category = "Double Chance";
+                if (marketValue.includes("Over")) category = "Goals";
+                if (marketValue.includes("Under")) category = "Goals";
 
                 const savedPrediction = await prisma.prediction.create({
                     data: {
@@ -413,7 +416,7 @@ export const generateDailyPredictions = async () => {
                         homeTeam,
                         awayTeam,
                         league: fixture.league.name,
-                        prediction: prediction.market,
+                        prediction: marketValue,
                         odds: prediction.odds,
                         confidence: prediction.confidence || 85,
                         analysis: prediction.reasoning,
