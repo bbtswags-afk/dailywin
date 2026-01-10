@@ -359,71 +359,100 @@ export const generateDailyPredictions = async () => {
         const newPredictions = [];
 
         // 4. Generate Predictions
+        // 4. Generate Predictions
         for (const fixture of selectedFixtures) {
             try {
-                isVolatile: aiResult.isVolatile || false,
-                    fixtureId: parseInt(fixture.fixture.id)
-            }
+                const homeTeam = fixture.teams.home.name;
+                const awayTeam = fixture.teams.away.name;
+                const league = fixture.league.name;
+
+                console.log(`\n🔎 Processing: ${homeTeam} vs ${awayTeam}`);
+
+                const context = await getMatchContext(fixture);
+                // 5. Generate with AI
+                const prediction = await generatePrediction(context, homeTeam, awayTeam, league);
+
+                console.log(`   - AI Result: ${prediction.market}`);
+
+                // 6. Save to DB
+                console.log(`   - Saving to DB...`);
+
+                const isVolatile = (context.homeForm.match(/L/g) || []).length > 2 || (context.awayForm.match(/L/g) || []).length > 2;
+
+                let category = "Safe";
+                if (prediction.market.includes("Win")) category = "Straight Wins";
+                if (prediction.market.includes("Corner")) category = "Corners";
+                if (prediction.market.includes("Double")) category = "Double Chance";
+                if (prediction.market.includes("Over")) category = "Goals";
+
+                const savedPrediction = await prisma.prediction.create({
+                    data: {
+                        date: today,
+                        homeTeam,
+                        awayTeam,
+                        league: fixture.league.name,
+                        prediction: prediction.market,
+                        odds: prediction.odds,
+                        confidence: prediction.confidence || 85,
+                        analysis: prediction.reasoning,
+                        reasoning: prediction.reasoning,
+                        type: prediction.type,
+                        category: category,
+                        isVolatile: prediction.isVolatile || isVolatile,
+                        result: 'PENDING',
+                        homeLogo: fixture.teams.home.logo,
+                        awayLogo: fixture.teams.away.logo,
+                        fixtureId: parseInt(fixture.fixture.id)
+                    }
                 });
 
-        newPredictions.push({
-            ...savedPrediction,
-            time: savedPrediction.date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+                console.log(`   - Saved!`);
+                newPredictions.push(savedPrediction);
+
+                // Rate Limit Protection (2s)
+                await new Promise(r => setTimeout(r, 2000));
+
+            } catch (err) {
+                console.error(`❌ Error processing fixture:`, err.message);
+                if (err.code === 'P2002') console.error("   (Duplicate ID - Skipped)");
+                continue; // Skip to next match
+            }
+        }
+
+        if (newPredictions.length === 0) {
+            console.log("❌ NO REAL GAMES FOUND. Returning empty per 'Real Data Only' policy.");
+            // Do not return mocks.
+        }
+
+        // Return *All* predictions for today (new + existing)
+        // Need to refetch or combine to ensure we return full list
+        const allPredictions = await prisma.prediction.findMany({
+            where: {
+                date: {
+                    gte: startOfDay,
+                    lte: endOfDay
+                }
+            }
         });
-        console.log("   - Saved!");
+
+        return allPredictions.map(p => ({
+            id: p.id,
+            homeTeam: p.homeTeam,
+            awayTeam: p.awayTeam,
+            league: p.league,
+            prediction: p.prediction,
+            confidence: p.confidence,
+            reasoning: p.reasoning,
+            analysis: p.analysis,
+            odds: p.odds,
+            type: p.type,
+            isVolatile: p.isVolatile,
+            time: p.date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+            category: p.category
+        }));
 
     } catch (error) {
-        if (error.code === 'P2002') {
-            console.log("   - Skipped (Duplicate ID found during save)");
-        } else {
-            console.error("   - Save Failed:", error);
-        }
+        console.error("Prediction Logic Error:", error);
+        return [];
     }
-
-    newPredictions.push({
-        ...savedPrediction,
-        time: savedPrediction.date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-    });
-    console.log("   - Saved!"); // LOG
-
-    // Rate limit delay (7s) to respect Free API limits (10 req/min)
-    await new Promise(r => setTimeout(r, 7000));
-}
-
-if (newPredictions.length === 0) {
-    console.log("❌ NO REAL GAMES FOUND. Returning empty per 'Real Data Only' policy.");
-    // Do not return mocks.
-}
-
-// Return *All* predictions for today (new + existing)
-// Need to refetch or combine to ensure we return full list
-const allPredictions = await prisma.prediction.findMany({
-    where: {
-        date: {
-            gte: startOfDay,
-            lte: endOfDay
-        }
-    }
-});
-
-return allPredictions.map(p => ({
-    id: p.id,
-    homeTeam: p.homeTeam,
-    awayTeam: p.awayTeam,
-    league: p.league,
-    prediction: p.prediction,
-    confidence: p.confidence,
-    reasoning: p.reasoning,
-    analysis: p.analysis,
-    odds: p.odds,
-    type: p.type,
-    isVolatile: p.isVolatile,
-    time: p.date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-    category: p.category
-}));
-
-    } catch (error) {
-    console.error("Prediction Logic Error:", error);
-    return [];
-}
 };
