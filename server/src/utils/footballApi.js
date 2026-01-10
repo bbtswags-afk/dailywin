@@ -146,20 +146,41 @@ export const getLiveScores = async () => {
 // Helper to map League Names to IDs
 const getLeagueId = (name, country) => {
     const n = (name + " " + country).toLowerCase();
+
+    // England
     if (n.includes("premier league") && n.includes("england")) return 39;
-    if ((n.includes("laliga") || n.includes("la liga")) && n.includes("spain")) return 140;
+    if (n.includes("championship") && n.includes("england")) return 40;
+    if (n.includes("league one") && n.includes("england")) return 41;
+    if (n.includes("fa cup")) return 45;
+    if (n.includes("carabao") || n.includes("efl cup")) return 48;
+
+    // Spain
+    if ((n.includes("laliga") || n.includes("la liga") || n.includes("primera")) && n.includes("spain")) return 140;
+    if ((n.includes("segunda") || n.includes("laliga 2") || n.includes("hypermotion")) && n.includes("spain")) return 141;
+    if (n.includes("copa del rey")) return 143;
+
+    // Germany
     if (n.includes("bundesliga") && n.includes("germany")) return 78;
+    if (n.includes("2. bundesliga") || (n.includes("bundesliga 2"))) return 79;
+    if (n.includes("dfb pokal")) return 81;
+
+    // Italy
     if (n.includes("serie a") && n.includes("italy")) return 135;
+    if (n.includes("serie b") && n.includes("italy")) return 136;
+    if (n.includes("coppa italia")) return 137;
+
+    // France
     if (n.includes("ligue 1") && n.includes("france")) return 61;
+    if (n.includes("ligue 2") && n.includes("france")) return 62;
+    if (n.includes("coupe de france")) return 66;
+
+    // Others
     if (n.includes("champions league")) return 2;
     if (n.includes("europa league")) return 3;
-    if (n.includes("fa cup")) return 45;
-    if (n.includes("carabao")) return 48;
-    if (n.includes("copa del rey")) return 143;
-    if (n.includes("coppa italia")) return 137;
-    if (n.includes("dfb pokal")) return 81;
-    if (n.includes("coupe de france")) return 66;
-    return 0; // 0 = allow all but separate? or just null to skip
+    if (n.includes("eredivisie")) return 88;
+    if (n.includes("primeira") || n.includes("liga portugal")) return 94;
+
+    return 0; // Filter out unknown leagues to ensure data quality
 };
 
 // Helper to map Event
