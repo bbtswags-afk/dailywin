@@ -47,11 +47,18 @@ export const getH2H_TSDB = async (homeName, awayName) => {
 
         let h2hText = "No recent meetings found.";
 
+        let homeLogo = null;
+        let awayLogo = null;
+
         // Check exact matches
         if (data.event && data.event.length > 0) {
             // Sort by date descending just in case
             const events = data.event.sort((a, b) => b.dateEvent.localeCompare(a.dateEvent));
             const recent = events.slice(0, 5); // Take last 5 meetings
+
+            // Get Logos from the most recent event (most likely to be up to date)
+            homeLogo = events[0].strHomeTeamBadge || null;
+            awayLogo = events[0].strAwayTeamBadge || null;
 
             h2hText = recent.map(e => `${e.dateEvent}: ${e.strEvent} (${e.intHomeScore}-${e.intAwayScore})`).join('\n');
             console.log(`   -> ✅ Found ${events.length} past meetings.`);
@@ -61,6 +68,8 @@ export const getH2H_TSDB = async (homeName, awayName) => {
 
         return {
             h2h: h2hText,
+            homeLogo,
+            awayLogo,
             // Form is now handled by the Scraper, so we return nulls here to indicate "Go Fetch Form Elsewhere"
             ids: { home: null, away: null }
         };

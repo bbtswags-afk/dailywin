@@ -31,6 +31,8 @@ export const getMatchContext = async (game) => {
         // 1. Process H2H (from TheSportsDB)
         if (tsdbData && tsdbData.h2h) {
             context.h2h = tsdbData.h2h;
+            if (tsdbData.homeLogo) context.homeLogo = tsdbData.homeLogo;
+            if (tsdbData.awayLogo) context.awayLogo = tsdbData.awayLogo;
             console.log("   -> ✅ H2H Acquired (TheSportsDB).");
         }
 
@@ -314,8 +316,8 @@ export const generateDailyPredictions = async () => {
                         category: category,
                         isVolatile: prediction.isVolatile || true,
                         result: 'PENDING',
-                        homeLogo: fixture.teams.home.logo,
-                        awayLogo: fixture.teams.away.logo,
+                        homeLogo: context.homeLogo || fixture.teams.home.logo,
+                        awayLogo: context.awayLogo || fixture.teams.away.logo,
                         fixtureId: parseInt(fixture.fixture.id)
                     }
                 });
