@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 const categories = [
     { id: 'all', label: 'All Predictions' },
     { id: 'safe', label: 'Safe Bets (Avg 90%)' },
-    { id: 'goals', label: 'Over 1.5 Goals' },
+    { id: 'goals', label: 'Over 0.5/1.5' },
     { id: 'win', label: 'Straight Wins' },
     { id: 'corners', label: 'Corners' },
     { id: 'double', label: 'Double Chance' },

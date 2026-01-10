@@ -1,0 +1,24 @@
+🔍 Checking Logo URLs in API Data...
+📅 Using Online True Date: 2026-01-10T06:57:18.061Z
+🕷️ Scraping Fixtures from LiveScore.com for date: 20260110
+✅ Scraped & Mapped 70 Fixtures.
+
+Match 1: Real Oviedo vs Real Betis
+   🏠 Home Logo: https://lsm-static-prod.livescore.com/medium/enet/8670.png
+   🏃 Away Logo: https://lsm-static-prod.livescore.com/medium/enet/8603.png
+
+Match 2: Villarreal vs Deportivo Alaves
+   🏠 Home Logo: https://lsm-static-prod.livescore.com/medium/enet/10205.png
+   🏃 Away Logo: https://lsm-static-prod.livescore.com/medium/enet/9866.png
+
+Match 3: Girona vs Osasuna
+   🏠 Home Logo: https://lsm-static-prod.livescore.com/medium/enet/7732.png
+   🏃 Away Logo: https://lsm-static-prod.livescore.com/medium/enet/8371.png
+
+Match 4: Valencia vs Elche
+   🏠 Home Logo: https://lsm-static-prod.livescore.com/medium/enet/10267.png
+   🏃 Away Logo: https://lsm-static-prod.livescore.com/medium/enet/10268.png
+
+Match 5: FC Heidenheim vs FC Cologne
+   🏠 Home Logo: https://lsm-static-prod.livescore.com/medium/enet/94937.png
+   🏃 Away Logo: https://lsm-static-prod.livescore.com/medium/enet/8722.png
