@@ -325,29 +325,51 @@ export const generateDailyPredictions = async () => {
             return match;
         });
 
-        // PRIORITY SORTING: Put major competitions first
+        // PRIORITY ORDER for Display/Grouping
         const PRIORITY_ORDER = [
             'Champions League', 'Premier League', 'LaLiga', 'Bundesliga', 'Serie A', 'Ligue 1',
-            'FA Cup', 'Copa del Rey', 'Coupe de France'
+            'FA Cup', 'Copa del Rey', 'Coupe de France', 'Coppa Italia', 'Eredivisie', 'Primeira'
         ];
 
-        selectedFixtures.sort((a, b) => {
-            const aName = a.league.name;
-            const bName = b.league.name;
-            const aIdx = PRIORITY_ORDER.findIndex(p => aName.includes(p));
-            const bIdx = PRIORITY_ORDER.findIndex(p => bName.includes(p));
-            // If both found, lower index = higher priority (-1 comes last)
+        // 1. Group by League
+        const grouped = {};
+        selectedFixtures.forEach(f => {
+            const name = f.league.name;
+            if (!grouped[name]) grouped[name] = [];
+            grouped[name].push(f);
+        });
+
+        // 2. Sort groups by Priority
+        const sortedLeagueNames = Object.keys(grouped).sort((a, b) => {
+            const aIdx = PRIORITY_ORDER.findIndex(p => a.includes(p));
+            const bIdx = PRIORITY_ORDER.findIndex(p => b.includes(p));
             if (aIdx !== -1 && bIdx !== -1) return aIdx - bIdx;
             if (aIdx !== -1) return -1;
             if (bIdx !== -1) return 1;
-            return 0;
+            return 0; // Alphanumeric fallback?
         });
 
-        // LIMIT to Top 30 Matches (30 * 2s = ~60s)
-        if (selectedFixtures.length > 30) {
-            console.log(`⚠️ Too many matches (${selectedFixtures.length}). Limiting to Top 30 to avoid timeout.`);
-            selectedFixtures = selectedFixtures.slice(0, 30);
+        // 3. Round-Robin Selection (Pick 1 from each league, repeat until limit)
+        let balancedFixtures = [];
+        const TARGET_LIMIT = 15; // 15 * 2s = 30s (Safe)
+
+        let addedSomething = true;
+        while (balancedFixtures.length < TARGET_LIMIT && addedSomething) {
+            addedSomething = false;
+            for (const leagueName of sortedLeagueNames) {
+                if (balancedFixtures.length >= TARGET_LIMIT) break;
+
+                if (grouped[leagueName].length > 0) {
+                    // Take one match from this league
+                    balancedFixtures.push(grouped[leagueName].shift());
+                    addedSomething = true;
+                }
+            }
         }
+
+        selectedFixtures = balancedFixtures;
+
+        console.log(`🔎 Balanced Selection: ${selectedFixtures.length} matches from ${sortedLeagueNames.length} leagues.`);
 
         console.log(`🔎 Processing Top ${selectedFixtures.length} matches.`);
 
