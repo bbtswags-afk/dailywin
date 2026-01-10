@@ -392,6 +392,7 @@ export const generateDailyPredictions = async () => {
 
                 if (!context) {
                     console.log(`   - Skipped: No Real Data available.`);
+                    await new Promise(r => setTimeout(r, 20000));
                     continue;
                 }
 
@@ -422,7 +423,7 @@ export const generateDailyPredictions = async () => {
                         awayTeam,
                         league: fixture.league.name,
                         prediction: marketValue,
-                        odds: prediction.odds,
+                        odds: String(prediction.odds),
                         confidence: prediction.confidence || 85,
                         analysis: prediction.reasoning,
                         reasoning: prediction.reasoning,
@@ -445,6 +446,7 @@ export const generateDailyPredictions = async () => {
             } catch (err) {
                 console.error(`❌ Error processing fixture:`, err.message);
                 if (err.code === 'P2002') console.error("   (Duplicate ID - Skipped)");
+                await new Promise(r => setTimeout(r, 20000));
                 continue; // Skip to next match
             }
         }
