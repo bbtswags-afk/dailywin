@@ -49,14 +49,7 @@ const getMatchContext = async (game) => {
     return { h2h: h2hStrings, homeForm, awayForm, strategy, volatilityContext, homeStats, awayStats };
 };
 
-// ... (generatePrediction remains same) ...
 
-// ... (Inside generateDailyPredictions loop) ...
-
-
-
-// 5. Generate with AI
-const prediction = await generatePrediction(context, homeTeam, awayTeam, league);
 
 const generatePrediction = async (homeTeam, awayTeam, league, context) => {
     try {
