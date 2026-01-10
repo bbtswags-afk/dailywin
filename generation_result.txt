@@ -1,0 +1,34 @@
+🚀 STARTING LOCAL DEBUG GENERATION
+📅 Date: 2026-01-10T07:26:30.271Z
+🗑️ Cleared 3 existing predictions.
+🕷️ Fetching Fixtures...
+📅 Using Online True Date: 2026-01-10T07:26:34.121Z
+🕷️ Scraping Fixtures from LiveScore.com for date: 20260110
+✅ Scraped & Mapped 93 Fixtures.
+✅ Scraper Found: 93 raw fixtures.
+   Sample: Real Oviedo vs Real Betis (LaLiga)
+🧠 Triggering AI Generation...
+🤖 AI Engine Processing for: 2026-01-10
+🧹 Cleared stale pending predictions.
+Fetching new fixtures from API...
+📅 Using Online True Date: 2026-01-10T07:26:41.422Z
+🕷️ Scraping Fixtures from LiveScore.com for date: 20260110
+✅ Scraped & Mapped 93 Fixtures.
+⚠️ Too many matches (71). Limiting to Top 12 to avoid timeout.
+🔎 Processing Top 12 matches.
+
+🔎 Processing: Real Oviedo vs Real Betis
+   - Fetching Context...
+🔎 Searching Free API for Real Data: Real Oviedo vs Real Betis
+🆓 FreeAPI: Looking up match for Real Oviedo vs Real Betis (LaLiga)
+   -> FreeAPI: Fetched 21 matches in window.
+   -> Found Match ID: 544396 (Teams: 1048/90)
+Debug H2H: HomeID=1048, AwayID=90. Scanning 18 matches.
+   Sample Match: Deportivo Alavés vs Real Oviedo (2026-01-04T17:30:00Z)
+   Found 0 H2H matches.
+   -> ✅ Real H2H/Form Data Acquired via Football-Data.org.
+   - Generating AI Prediction...
+   - AI Result: Over 1.5 Goals
+   - Saving to DB...
+   - Saved!
+🏁 Generation Complete. Created 0 predictions.

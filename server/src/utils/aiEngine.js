@@ -360,113 +360,70 @@ export const generateDailyPredictions = async () => {
 
         // 4. Generate Predictions
         for (const fixture of selectedFixtures) {
-            console.log(`\n🔎 Processing: ${fixture.teams.home.name} vs ${fixture.teams.away.name}`);
-
-            // Check if already exists (Fix: Handle String/Int mismatch)
-            const exists = existingPredictions.find(p => p.fixtureId == fixture.fixture.id);
-            if (exists) { console.log("   - Skipped (Exists)"); continue; }
-
-            console.log("   - Fetching Context..."); // LOG
-            const context = await getMatchContext(fixture);
-            console.log("   - Generating AI Prediction..."); // LOG
-            const aiResult = await generatePrediction(
-                fixture.teams.home.name,
-                fixture.teams.away.name,
-                fixture.league.name,
-                context
-            );
-            console.log("   - AI Result:", aiResult.prediction); // LOG
-
-            // Determine Category
-            let category = 'other';
-            const pText = aiResult.prediction || "";
-            if (pText.includes('Over')) category = 'goals';
-            else if (pText.includes('Win')) category = 'win';
-            else if (pText.includes('1X') || pText.includes('X2')) category = 'double';
-            else if (pText.includes('Corners')) category = 'corners';
-
-            console.log("   - Saving to DB..."); // LOG
-            // Save to DB (Handle duplicates gracefully)
             try {
-                const savedPrediction = await prisma.prediction.create({
-                    data: {
-                        date: new Date(fixture.fixture.date),
-                        homeTeam: fixture.teams.home.name,
-                        awayTeam: fixture.teams.away.name,
-                        homeLogo: fixture.teams.home.logo, // Save Logo
-                        awayLogo: fixture.teams.away.logo, // Save Logo
-                        league: fixture.league.name,
-                        prediction: aiResult.prediction || "Double Chance 1X",
-                        odds: String(aiResult.odds || "1.50"), // Fix: Ensure String
-                        confidence: parseInt(aiResult.confidence) || 75,
-                        analysis: aiResult.analysis || `H2H: ${context.h2h}. Form: Home ${context.homeForm.slice(0, 5)}, Away ${context.awayForm.slice(0, 5)}. Style: ${context.strategy?.style || 'Balanced'}.`,
-                        reasoning: aiResult.reasoning || "Based on recent form.",
-                        result: 'PENDING',
-                        type: aiResult.type || "Safe",
-                        category: category,
-                        isVolatile: aiResult.isVolatile || false,
-                        fixtureId: parseInt(fixture.fixture.id)
-                    }
+                isVolatile: aiResult.isVolatile || false,
+                    fixtureId: parseInt(fixture.fixture.id)
+            }
                 });
 
-                newPredictions.push({
-                    ...savedPrediction,
-                    time: savedPrediction.date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-                });
-                console.log("   - Saved!");
-
-            } catch (error) {
-                if (error.code === 'P2002') {
-                    console.log("   - Skipped (Duplicate ID found during save)");
-                } else {
-                    console.error("   - Save Failed:", error);
-                }
-            }
-
-            newPredictions.push({
-                ...savedPrediction,
-                time: savedPrediction.date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-            });
-            console.log("   - Saved!"); // LOG
-
-            // Rate limit delay (7s) to respect Free API limits (10 req/min)
-            await new Promise(r => setTimeout(r, 7000));
-        }
-
-        if (newPredictions.length === 0) {
-            console.log("❌ NO REAL GAMES FOUND. Returning empty per 'Real Data Only' policy.");
-            // Do not return mocks.
-        }
-
-        // Return *All* predictions for today (new + existing)
-        // Need to refetch or combine to ensure we return full list
-        const allPredictions = await prisma.prediction.findMany({
-            where: {
-                date: {
-                    gte: startOfDay,
-                    lte: endOfDay
-                }
-            }
+        newPredictions.push({
+            ...savedPrediction,
+            time: savedPrediction.date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
         });
-
-        return allPredictions.map(p => ({
-            id: p.id,
-            homeTeam: p.homeTeam,
-            awayTeam: p.awayTeam,
-            league: p.league,
-            prediction: p.prediction,
-            confidence: p.confidence,
-            reasoning: p.reasoning,
-            analysis: p.analysis,
-            odds: p.odds,
-            type: p.type,
-            isVolatile: p.isVolatile,
-            time: p.date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-            category: p.category
-        }));
+        console.log("   - Saved!");
 
     } catch (error) {
-        console.error("Prediction Logic Error:", error);
-        return [];
+        if (error.code === 'P2002') {
+            console.log("   - Skipped (Duplicate ID found during save)");
+        } else {
+            console.error("   - Save Failed:", error);
+        }
     }
+
+    newPredictions.push({
+        ...savedPrediction,
+        time: savedPrediction.date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+    });
+    console.log("   - Saved!"); // LOG
+
+    // Rate limit delay (7s) to respect Free API limits (10 req/min)
+    await new Promise(r => setTimeout(r, 7000));
+}
+
+if (newPredictions.length === 0) {
+    console.log("❌ NO REAL GAMES FOUND. Returning empty per 'Real Data Only' policy.");
+    // Do not return mocks.
+}
+
+// Return *All* predictions for today (new + existing)
+// Need to refetch or combine to ensure we return full list
+const allPredictions = await prisma.prediction.findMany({
+    where: {
+        date: {
+            gte: startOfDay,
+            lte: endOfDay
+        }
+    }
+});
+
+return allPredictions.map(p => ({
+    id: p.id,
+    homeTeam: p.homeTeam,
+    awayTeam: p.awayTeam,
+    league: p.league,
+    prediction: p.prediction,
+    confidence: p.confidence,
+    reasoning: p.reasoning,
+    analysis: p.analysis,
+    odds: p.odds,
+    type: p.type,
+    isVolatile: p.isVolatile,
+    time: p.date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+    category: p.category
+}));
+
+    } catch (error) {
+    console.error("Prediction Logic Error:", error);
+    return [];
+}
 };
