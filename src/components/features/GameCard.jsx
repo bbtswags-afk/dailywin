@@ -73,12 +73,20 @@ const GameCard = ({ game, isGuest = false }) => {
                 <div className="flex items-center justify-between mb-6">
                     <div className="flex flex-col gap-3">
                         <div className="flex items-center gap-3">
-                            {homeLogo && <img src={homeLogo} alt={homeTeam} className="w-8 h-8 object-contain" />}
+                            {homeLogo ? (
+                                <img src={homeLogo} alt={homeTeam} className="w-8 h-8 object-contain" onError={(e) => e.target.style.display = 'none'} />
+                            ) : (
+                                <ShieldCheck className="w-8 h-8 text-gray-600/50" />
+                            )}
                             <span className="text-lg font-bold text-white group-hover:text-primary transition-colors">{homeTeam}</span>
                         </div>
                         <span className="text-xs text-muted-foreground ml-11">vs</span>
                         <div className="flex items-center gap-3">
-                            {awayLogo && <img src={awayLogo} alt={awayTeam} className="w-8 h-8 object-contain" />}
+                            {awayLogo ? (
+                                <img src={awayLogo} alt={awayTeam} className="w-8 h-8 object-contain" onError={(e) => e.target.style.display = 'none'} />
+                            ) : (
+                                <ShieldCheck className="w-8 h-8 text-gray-600/50" />
+                            )}
                             <span className="text-lg font-bold text-white group-hover:text-primary transition-colors">{awayTeam}</span>
                         </div>
                     </div>
