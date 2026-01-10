@@ -6,7 +6,7 @@ export const getTrueDate = async () => {
 
         // Primary: TimeAPI.io (Clean JSON)
         try {
-            const res = await fetch('https://timeapi.io/api/Time/current/zone?timeZone=UTC', { signal: AbortSignal.timeout(1000) });
+            const res = await fetch('https://timeapi.io/api/Time/current/zone?timeZone=UTC', { signal: AbortSignal.timeout(5000) });
             if (res.ok) {
                 const data = await res.json();
                 // data.dateTime example: "2025-01-08T22:00:00.000000"

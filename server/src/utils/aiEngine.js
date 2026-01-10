@@ -341,12 +341,15 @@ export const generateDailyPredictions = async () => {
 
         // 2. Sort groups by Priority
         const sortedLeagueNames = Object.keys(grouped).sort((a, b) => {
-            const aIdx = PRIORITY_ORDER.findIndex(p => a.includes(p));
-            const bIdx = PRIORITY_ORDER.findIndex(p => b.includes(p));
-            if (aIdx !== -1 && bIdx !== -1) return aIdx - bIdx;
-            if (aIdx !== -1) return -1;
-            if (bIdx !== -1) return 1;
-            return 0; // Alphanumeric fallback?
+            const aName = a.toLowerCase();
+            const bName = b.toLowerCase();
+
+            const getPriority = (name) => {
+                const idx = PRIORITY_ORDER.findIndex(p => name.includes(p.toLowerCase()));
+                return idx === -1 ? 100 : idx; // 100 = low priority
+            };
+
+            return getPriority(aName) - getPriority(bName);
         });
 
         // 3. Round-Robin Selection (Pick 1 from each league, repeat until limit)
