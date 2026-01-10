@@ -343,10 +343,10 @@ export const generateDailyPredictions = async () => {
             return 0;
         });
 
-        // LIMIT to Top 12 Matches to prevent TImeouts (12 * 5s = 60s)
-        if (selectedFixtures.length > 12) {
-            console.log(`⚠️ Too many matches (${selectedFixtures.length}). Limiting to Top 12 to avoid timeout.`);
-            selectedFixtures = selectedFixtures.slice(0, 12);
+        // LIMIT to Top 30 Matches (30 * 2s = ~60s)
+        if (selectedFixtures.length > 30) {
+            console.log(`⚠️ Too many matches (${selectedFixtures.length}). Limiting to Top 30 to avoid timeout.`);
+            selectedFixtures = selectedFixtures.slice(0, 30);
         }
 
         console.log(`🔎 Processing Top ${selectedFixtures.length} matches.`);
