@@ -10,51 +10,59 @@ const getMatchContext = async (game) => {
     const homeTeamName = game.teams.home.name;
     const awayTeamName = game.teams.away.name;
 
-    // 1. DEFAULT: Simulator (Fallback)
-    // We generate this first in case API fails
-    const simStats = getSimulatedAnalysis(homeTeamName, awayTeamName);
-    let strategy = {
-        market: simStats.suggestedMarket,
-        txt: simStats.suggestedReasoning,
-        style: simStats.homeStyle
-    };
-    let h2hStrings = simStats.h2h + " (Simulated)";
-    let homeForm = simStats.homeForm + " (Simulated)";
-    let awayForm = simStats.awayForm + " (Simulated)";
-
-    // 2. REAL API DATA ATTEMPT (Via Football-Data.org Free Tier)
+    // 1. REAL API DATA ATTEMPT (Via Football-Data.org Free Tier)
     let freeData = null;
+    let h2hStrings = null;
+    let homeForm = null;
+    let awayForm = null;
+    let homeStats = null;
+    let awayStats = null;
+
     try {
         console.log(`🔎 Searching Free API for Real Data: ${homeTeamName} vs ${awayTeamName}`);
         freeData = await getH2HFree(homeTeamName, awayTeamName, game.league.name);
 
         if (freeData) {
-            h2hStrings = freeData.h2h || h2hStrings;
-            homeForm = freeData.homeForm || homeForm;
-            awayForm = freeData.awayForm || awayForm;
-
-            // If we got real data, append (Real) label
-            h2hStrings += " (Real)";
-            homeForm += " (Real)";
-            awayForm += " (Real)";
+            h2hStrings = freeData.h2h + " (Real)";
+            homeForm = freeData.homeForm + " (Real)";
+            awayForm = freeData.awayForm + " (Real)";
+            homeStats = freeData.homeStats;
+            awayStats = freeData.awayStats;
 
             console.log("   -> ✅ Real H2H/Form Data Acquired via Football-Data.org.");
         } else {
-            console.log("   -> Match not found in Free API (Likely league coverage limit). Using Simulator.");
+            console.log("   -> Match not found in Free API. Skipping (Strict Real Data Policy).");
+            return null; // Strict Skip
         }
 
     } catch (e) {
-        console.error("   -> Real Data Fetch Failed (Using Simulator):", e.message);
+        console.error("   -> Real Data Fetch Failed:", e.message);
+        return null; // Strict Skip
     }
-
-    const homeStats = freeData?.homeStats || null;
-    const awayStats = freeData?.awayStats || null;
 
     const isCup = game.league.type === 'Cup';
     const volatilityContext = isCup ? "Cup Match. High Risk." : "Regular Season.";
 
+    // Dummy strategy for AI context (AI will generate its own strategy)
+    const strategy = { market: "N/A", txt: "Real Data Analysis", style: "Real" };
+
     return { h2h: h2hStrings, homeForm, awayForm, strategy, volatilityContext, homeStats, awayStats };
 };
+
+// ... (generatePrediction remains same) ...
+
+// ... (Inside generateDailyPredictions loop) ...
+
+const context = await getMatchContext(fixture);
+
+// STRICT CHECK: If no context (no real data), SKIP.
+if (!context) {
+    console.log(`   - Skipped: No Real Data available.`);
+    continue;
+}
+
+// 5. Generate with AI
+const prediction = await generatePrediction(context, homeTeam, awayTeam, league);
 
 const generatePrediction = async (homeTeam, awayTeam, league, context) => {
     try {
@@ -393,6 +401,12 @@ export const generateDailyPredictions = async () => {
                 console.log(`\n🔎 Processing: ${homeTeam} vs ${awayTeam}`);
 
                 const context = await getMatchContext(fixture);
+
+                if (!context) {
+                    console.log(`   - Skipped: No Real Data available.`);
+                    continue;
+                }
+
                 // 5. Generate with AI
                 const prediction = await generatePrediction(context, homeTeam, awayTeam, league);
 
