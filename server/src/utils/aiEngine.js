@@ -81,23 +81,26 @@ const generatePrediction = async (homeTeam, awayTeam, league, context) => {
         Context: ${context.volatilityContext}.
 
         Task: Run a debate between The Scout and The Accountant.
-        - You MUST prioritize SAVETY over high odds. 
-        - Avoid "Over 2.5 Goals" unless it is 99% certain (e.g. Manchester City vs 4th tier team), otherwise prefer "Over 1.5 Goals".
-        - If "Home Win" is risky, use "Double Chance 1X" or "Over 0.5 Goals" for the home team.
+        - You MUST prioritize SAFETY but also DIVERSITY. Do not just default to "Over 1.5 Goals".
+        - If a team is a strong favorite but might draw, use "Double Chance 1X" or "12".
+        - If both teams score often but result is unclear, use "Over 1.5 Goals" or "Over 0.5 Goals".
+        - If a team attacks heavily, use "Over 5.5 Corners".
+        - If the game is very tight/defensive, use "Under 4.5 Goals".
+        - "Team Over 0.5 Goals" is great for a strong team playing away.
 
         Allowed Markets (Prioritized by Safety): 
-        - "Over 1.5 Goals" (Very Safe - Standard)
-        - "Over 0.5 Goals" (Ultra Safe)
-        - "Double Chance 1X" (Home Win or Draw - Safe)
-        - "Double Chance X2" (Away Win or Draw - Safe)
-        - "Double Chance 12" (Any Winner - Safe)
-        - "Home Win" (Only if clear favorite)
-        - "Away Win" (Only if clear favorite)
+        - "Over 1.5 Goals" (Safe)
+        - "Over 0.5 Goals" (Ultra Safe - good for volatile games)
+        - "Double Chance 1X" (Home/Draw)
+        - "Double Chance X2" (Away/Draw)
+        - "Double Chance 12" (No Draw)
+        - "Home Win" (Clear Favorite)
+        - "Away Win" (Clear Favorite)
         - "Over 5.5 Corners" (Safe)
-        - "Over 7.5 Corners" (Moderate)
-        - "Home Team Over 0.5 Goals" (Safe)
-        - "Away Team Over 0.5 Goals" (Safe)
-        - "Under 4.5 Goals" (Safe for defensive games)
+        - "Over 7.5 Corners" (Value)
+        - "Home Team Over 0.5 Goals" (Safe Accumulator)
+        - "Away Team Over 0.5 Goals" (Safe Accumulator)
+        - "Under 4.5 Goals" (Defensive safety)
 
         Output JSON ONLY:
         {
@@ -113,7 +116,7 @@ const generatePrediction = async (homeTeam, awayTeam, league, context) => {
         const completion = await groq.chat.completions.create({
             messages: [{ role: "user", content: prompt }],
             model: "llama-3.3-70b-versatile",
-            temperature: 0.5,
+            temperature: 0.7, // Increased temperature for variety
         });
 
         let text = completion.choices[0]?.message?.content || "";
@@ -146,26 +149,41 @@ const generatePrediction = async (homeTeam, awayTeam, league, context) => {
         const homeFormScore = (context.homeForm.match(/W/g) || []).length * 3 + (context.homeForm.match(/D/g) || []).length;
         const awayFormScore = (context.awayForm.match(/W/g) || []).length * 3 + (context.awayForm.match(/D/g) || []).length;
 
-        if (totalGoals >= 25) { // Avg 2.5 goals per game across both teams
-            market = "Over 1.5 Goals"; // CHANGED from 2.5 for Safety
-            reasoning = `High scoring teams (${hScored}+${aScored} goals recently). Safe bet on goals.`;
+        // Randomizer to ensure variety in Fallback
+        const rand = Math.random();
+
+        if (totalGoals >= 30) {
+            market = "Over 1.5 Goals";
+            reasoning = `High scoring teams (${hScored}+${aScored} goals). Safe bet on goals.`;
             type = "Safe";
             odds = "1.30";
-        } else if (homeFormScore >= 10 && awayFormScore < 5) { // Home dominant
-            market = "Home Win";
-            reasoning = `Home team in strong form (${context.homeForm}) vs struggling away side.`;
+        } else if (totalGoals >= 20 && rand > 0.5) {
+            market = "Over 0.5 Goals";
+            reasoning = "At least one goal expected based on stats.";
+            type = "Ultra Safe";
+            odds = "1.08";
+        } else if (homeFormScore >= 12 && awayFormScore < 5) {
+            market = rand > 0.5 ? "Home Win" : "Home Team Over 0.5 Goals";
+            reasoning = `Home team in strong form (${context.homeForm}).`;
             type = "Safe";
-            odds = "1.70";
-        } else if (awayFormScore >= 10 && homeFormScore < 5) { // Away dominant
-            market = "Double Chance X2";
+            odds = "1.50";
+        } else if (awayFormScore >= 12 && homeFormScore < 5) {
+            market = rand > 0.5 ? "Double Chance X2" : "Away Team Over 0.5 Goals";
             reasoning = `Away team is outperforming hosts (${context.awayForm}).`;
-            type = "Risky";
-            odds = "1.90";
-        } else if (totalGoals <= 12) { // Defensive
-            market = "Under 3.5 Goals";
+            type = "Safe";
+            odds = "1.45";
+        } else if (totalGoals <= 10) {
+            market = "Under 4.5 Goals";
             reasoning = "Defensive styles detected. Tight game expected.";
             type = "Safe";
-            odds = "1.40";
+            odds = "1.25";
+        } else {
+            // Default variety
+            const opts = ["Over 5.5 Corners", "Double Chance 12", "Over 1.5 Goals"];
+            market = opts[Math.floor(Math.random() * opts.length)];
+            reasoning = "Statistical trend based on recent play.";
+            type = "Safe";
+            odds = "1.35";
         }
 
         return {
