@@ -146,11 +146,11 @@ const generatePrediction = async (homeTeam, awayTeam, league, context) => {
         const homeFormScore = (context.homeForm.match(/W/g) || []).length * 3 + (context.homeForm.match(/D/g) || []).length;
         const awayFormScore = (context.awayForm.match(/W/g) || []).length * 3 + (context.awayForm.match(/D/g) || []).length;
 
-        if (totalGoals >= 25) { // Avg 2.5 goals per game across both teams (5 games * 2 teams * 2.5 = 25)
-            market = "Over 2.5 Goals";
-            reasoning = `High scoring teams (${hScored}+${aScored} goals recently). Expecting action.`;
-            type = "Value";
-            odds = "1.85";
+        if (totalGoals >= 25) { // Avg 2.5 goals per game across both teams
+            market = "Over 1.5 Goals"; // CHANGED from 2.5 for Safety
+            reasoning = `High scoring teams (${hScored}+${aScored} goals recently). Safe bet on goals.`;
+            type = "Safe";
+            odds = "1.30";
         } else if (homeFormScore >= 10 && awayFormScore < 5) { // Home dominant
             market = "Home Win";
             reasoning = `Home team in strong form (${context.homeForm}) vs struggling away side.`;
