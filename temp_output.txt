@@ -1,0 +1,15 @@
+🔍 Fetching Raw Fixtures...
+📅 Using Online True Date: 2026-01-10T06:35:31.668Z
+🕷️ Scraping Fixtures from LiveScore.com for date: 20260110
+✅ Scraped & Mapped 69 Fixtures.
+✅ Found 69 total fixtures.
+📋 Leagues found:
+   - LaLiga
+   - Bundesliga
+   - Serie A
+   - FA Cup: Round 3
+   - Coupe de France
+   - LaLiga 2
+   - Northern Premier League
+   - Premier League 2
+   - Premier League U18

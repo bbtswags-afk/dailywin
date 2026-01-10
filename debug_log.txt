@@ -1,0 +1,152 @@
+🚀 STARTING DEBUG RUN
+1. Fetching Fixtures...
+✅ API Returned 70 fixtures.
+2. analyzing League Names from API:
+   - LaLiga
+   - LaLiga
+   - LaLiga
+   - LaLiga
+   - Bundesliga
+   - Bundesliga
+   - Bundesliga
+   - Bundesliga
+   - Bundesliga
+   - Bundesliga
+   - Serie A
+   - Serie A
+   - Serie A
+   - Serie A
+   - FA Cup: Round 3
+   - FA Cup: Round 3
+   - FA Cup: Round 3
+   - FA Cup: Round 3
+   - FA Cup: Round 3
+   - FA Cup: Round 3
+   - FA Cup: Round 3
+   - FA Cup: Round 3
+   - FA Cup: Round 3
+   - FA Cup: Round 3
+   - FA Cup: Round 3
+   - FA Cup: Round 3
+   - FA Cup: Round 3
+   - FA Cup: Round 3
+   - FA Cup: Round 3
+   - FA Cup: Round 3
+   - FA Cup: Round 3
+   - FA Cup: Round 3
+   - FA Cup: Round 3
+   - Coupe de France
+   - Coupe de France
+   - Coupe de France
+   - Coupe de France
+   - Coupe de France
+   - Coupe de France
+   - Coupe de France
+   - Coupe de France
+   - Coupe de France
+   - LaLiga 2
+   - LaLiga 2
+   - LaLiga 2
+   - LaLiga 2
+   - LaLiga 2
+   - LaLiga 2
+   - Northern Premier League
+   - Northern Premier League
+   - Northern Premier League
+   - Northern Premier League
+   - Northern Premier League
+   - Northern Premier League
+   - Northern Premier League
+   - Northern Premier League
+   - Northern Premier League
+   - Northern Premier League
+   - Premier League 2
+   - Premier League 2
+   - Premier League U18
+   - Premier League U18
+   - Premier League U18
+   - Premier League U18
+   - Premier League U18
+   - Premier League U18
+   - Premier League U18
+   - Premier League U18
+   - Premier League U18
+   - Premier League U18
+
+3. Running generation Logic (Dry filter check)...
+
+✅ Filter would keep 70 matches.
+   KEEP: Real Oviedo vs Real Betis (LaLiga)
+   KEEP: Villarreal vs Deportivo Alaves (LaLiga)
+   KEEP: Girona vs Osasuna (LaLiga)
+   KEEP: Valencia vs Elche (LaLiga)
+   KEEP: FC Heidenheim vs FC Cologne (Bundesliga)
+   KEEP: Freiburg vs Hamburger SV (Bundesliga)
+   KEEP: St. Pauli vs RB Leipzig (Bundesliga)
+   KEEP: Union Berlin vs Mainz 05 (Bundesliga)
+   KEEP: Werder Bremen vs Hoffenheim (Bundesliga)
+   KEEP: Bayer Leverkusen vs VfB Stuttgart (Bundesliga)
+   KEEP: Como 1907 vs Bologna (Serie A)
+   KEEP: Udinese vs Pisa (Serie A)
+   KEEP: AS Roma vs Sassuolo (Serie A)
+   KEEP: Atalanta vs Torino (Serie A)
+   KEEP: Cheltenham Town vs Leicester City (FA Cup: Round 3)
+   KEEP: Everton vs Sunderland (FA Cup: Round 3)
+   KEEP: Macclesfield FC vs Crystal Palace (FA Cup: Round 3)
+   KEEP: Wolves vs Shrewsbury Town (FA Cup: Round 3)
+   KEEP: Boreham Wood vs Burton Albion (FA Cup: Round 3)
+   KEEP: Burnley vs Millwall (FA Cup: Round 3)
+   KEEP: Doncaster Rovers vs Southampton (FA Cup: Round 3)
+   KEEP: Fulham vs Middlesbrough (FA Cup: Round 3)
+   KEEP: Ipswich Town vs Blackpool (FA Cup: Round 3)
+   KEEP: Manchester City vs Exeter City (FA Cup: Round 3)
+   KEEP: Newcastle United vs AFC Bournemouth (FA Cup: Round 3)
+   KEEP: Salford City vs Swindon Town (FA Cup: Round 3)
+   KEEP: Sheffield Wednesday vs Brentford (FA Cup: Round 3)
+   KEEP: Stoke City vs Coventry City (FA Cup: Round 3)
+   KEEP: Bristol City vs Watford (FA Cup: Round 3)
+   KEEP: Cambridge United vs Birmingham City (FA Cup: Round 3)
+   KEEP: Grimsby Town vs Weston Super Mare (FA Cup: Round 3)
+   KEEP: Tottenham Hotspur vs Aston Villa (FA Cup: Round 3)
+   KEEP: Charlton Athletic vs Chelsea (FA Cup: Round 3)
+   KEEP: Angers vs Toulouse (Coupe de France)
+   KEEP: Montreuil FC vs Amiens (Coupe de France)
+   KEEP: Orleans vs AS Monaco (Coupe de France)
+   KEEP: SC Bastia vs Troyes (Coupe de France)
+   KEEP: Avranches vs Strasbourg (Coupe de France)
+   KEEP: Hauts Lyonnais vs Lorient (Coupe de France)
+   KEEP: Istres vs Laval (Coupe de France)
+   KEEP: Le Puy vs Reims (Coupe de France)
+   KEEP: Sochaux vs Lens (Coupe de France)
+   KEEP: Mirandes vs Almeria (LaLiga 2)
+   KEEP: FC Andorra vs Leonesa (LaLiga 2)
+   KEEP: Real Sociedad B vs Albacete (LaLiga 2)
+   KEEP: Burgos CF vs Eibar (LaLiga 2)
+   KEEP: Las Palmas vs Deportivo La Coruna (LaLiga 2)
+   KEEP: Racing Santander vs Real Zaragoza (LaLiga 2)
+   KEEP: Ashton United vs Gainsborough (Northern Premier League)
+   KEEP: Cleethorpes Town vs Warrington Town (Northern Premier League)
+   KEEP: Guiseley vs Bamber Bridge (Northern Premier League)
+   KEEP: Hednesford vs Hebburn Town (Northern Premier League)
+   KEEP: Ilkeston Town vs Morpeth Town AFC (Northern Premier League)
+   KEEP: Lancaster City vs Hyde United (Northern Premier League)
+   KEEP: Leek Town vs FC United of Manchester (Northern Premier League)
+   KEEP: Stockton Town vs Prescot Cables (Northern Premier League)
+   KEEP: Warrington Rylands vs Rushall Olympic (Northern Premier League)
+   KEEP: Whitby vs Workington (Northern Premier League)
+   KEEP: Reading U21 vs Leeds United U21 (Premier League 2)
+   KEEP: Chelsea U23 vs Crystal Palace U23 (Premier League 2)
+   KEEP: Liverpool U18 vs Stoke City U18 (Premier League U18)
+   KEEP: Nottingham Forest U18 vs Derby County U18 (Premier League U18)
+   KEEP: Arsenal U18 vs Leicester City U18 (Premier League U18)
+   KEEP: Aston Villa U18 vs Reading U18 (Premier League U18)
+   KEEP: West Bromwich Albion U18 vs Tottenham Hotspur U18 (Premier League U18)
+   KEEP: West Ham United U18 vs Norwich City U18 (Premier League U18)
+   KEEP: Blackburn Rovers U18 vs Newcastle United U18 (Premier League U18)
+   KEEP: Sunderland U18 vs Burnley U18 (Premier League U18)
+   KEEP: Chelsea U18 vs Birmingham City U18 (Premier League U18)
+   KEEP: Wolves U18 vs Middlesbrough U18 (Premier League U18)
+
+4. Triggering Full Generation...
+
+📊 Final Generator Output: 0 predictions.

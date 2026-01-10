@@ -1,0 +1,35 @@
+≡ƒöä Regenerating Predictions with Expanded Leagues...
+TimeAPI failed, trying fallback... The operation was aborted due to timeout
+WorldTimeAPI failed... fetch failed
+ΓÜá∩╕Å Online Time Check Failed. Using System Time.
+broom Cleared old/empty predictions.
+TimeAPI failed, trying fallback... The operation was aborted due to timeout
+WorldTimeAPI failed... fetch failed
+ΓÜá∩╕Å Online Time Check Failed. Using System Time.
+≡ƒñû AI Engine Processing for: 2026-01-10
+≡ƒº╣ Cleared stale pending predictions.
+Fetching new fixtures from API...
+TimeAPI failed, trying fallback... The operation was aborted due to timeout
+≡ƒôà Using Online True Date: 2026-01-10T06:36:45.703Z
+≡ƒò╖∩╕Å Scraping Fixtures from LiveScore.com for date: 20260110
+Γ£à Scraped & Mapped 69 Fixtures.
+≡ƒöÄ Found 58 matches in Strict Whitelist.
+
+≡ƒöÄ Processing: Real Oviedo vs Real Betis
+   - Fetching Context...
+≡ƒöÄ Searching Free API for Real Data: Real Oviedo vs Real Betis
+≡ƒåô FreeAPI: Looking up match for Real Oviedo vs Real Betis (LaLiga)
+   -> FreeAPI: Fetched 21 matches in window.
+   -> Found Match ID: 544396 (Teams: 1048/90)
+Debug H2H: HomeID=1048, AwayID=90. Scanning 18 matches.
+   Sample Match: Deportivo Alav├⌐s vs Real Oviedo (2026-01-04T17:30:00Z)
+   Found 0 H2H matches.
+   -> Γ£à Real H2H/Form Data Acquired via Football-Data.org.
+   - Generating AI Prediction...
+   - AI Result: Over 1.5 Goals
+   - Saving to DB...
+   - Saved!
+Prediction Logic Error: ReferenceError: savedPrediction is not defined
+    at generateDailyPredictions (file:///C:/Users/TuNeX/Desktop/DAILYWIN%20AI/server/src/utils/aiEngine.js:385:20)
+    at async regenerate (file:///C:/Users/TuNeX/Desktop/DAILYWIN%20AI/server/regenerate_predictions.js:25:25)
+Γ£à Generated 0 new predictions.

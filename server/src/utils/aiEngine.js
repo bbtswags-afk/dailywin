@@ -271,20 +271,26 @@ export const generateDailyPredictions = async () => {
             'Premier League',
             'LaLiga', 'La Liga', 'Primera Division',
             'Bundesliga',
-            'Serie A', // Covers Italy and Brazil (usually "Serie A" or "Serie A Betano")
+            'Serie A',
             'Ligue 1',
             'Eredivisie',
             'Primeira Liga', 'Liga Portugal',
-            'Championship', // England
+            'Championship',
+            'League One',
+            'Segunda', 'LaLiga 2', 'Hypermotion',
+            'Serie B',
+            'Bundesliga 2',
+            'Ligue 2',
             'World Cup',
-            'Euro 2024', 'European Championship'
+            'Euro 2024',
+            'FA Cup', 'Copa del Rey', 'Coppa Italia', 'DfB Pokal', 'Coupe de France', 'EFL Cup'
         ];
 
-        // Explicitly exclude lower tiers that mimic upper tier names
+        // Explicitly exclude lower tiers 
         const EXCLUDED_KEYWORDS = [
             'U21', 'U19', 'U18', 'Women', 'Reserve',
-            'Premier League 2', 'Liga 2', 'Ligue 2', 'Bundesliga 2', 'Serie B',
-            'Segunda', 'Youth', 'Cup'
+            'Premier League 2',
+            'Youth'
         ];
 
         let selectedFixtures = data.response.filter(f => {
