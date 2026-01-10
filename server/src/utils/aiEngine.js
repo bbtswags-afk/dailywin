@@ -1,55 +1,70 @@
 import Groq from "groq-sdk";
 import { getScrapedDailyFixtures } from "./footballApi.js";
 import prisma from "./prisma.js";
-import { getH2H_Rapid } from './apiFootballService.js';
+import { getH2H_TSDB } from './theSportsDbService.js';
+import { getFormFromScraper } from './scraperService.js'; // NEW SOURCE
 import { getTrueDate } from "./timeService.js";
 
-const GROQ_API_KEY = process.env.GROQ_API_KEY;
-
-const getMatchContext = async (game) => {
+export const getMatchContext = async (game) => {
     const homeTeamName = game.teams.home.name;
     const awayTeamName = game.teams.away.name;
 
-    // 1. RAPID API DATA ATTEMPT
-    let h2hStrings = null;
-    let homeForm = null;
-    let awayForm = null;
-    let homeStats = null;
-    let awayStats = null;
+    // Default Context
+    let context = {
+        h2h: "No H2H available.",
+        homeForm: "N/A",
+        awayForm: "N/A",
+        volatilityContext: game.league.type === 'Cup' ? "Cup Match. High Risk." : "Regular Season.",
+        homeStats: { scored: '?', conceded: '?' },
+        awayStats: { scored: '?', conceded: '?' }
+    };
 
     try {
-        console.log(`🔎 RapidAPI: Fetching Rich Data for ${homeTeamName} vs ${awayTeamName}`);
+        console.log(`🔎 Match Context: Fetching Rich Data for ${homeTeamName} vs ${awayTeamName}`);
 
-        // This call handles Team ID search + H2H + Recent Form (Consumes ~3-5 requests)
-        const rapidData = await getH2H_Rapid(homeTeamName, awayTeamName);
+        // Run Hybrid Fetch in Parallel
+        const [tsdbData, scraperData] = await Promise.all([
+            getH2H_TSDB(homeTeamName, awayTeamName),
+            getFormFromScraper(homeTeamName, awayTeamName)
+        ]);
 
-        if (rapidData) {
-            h2hStrings = rapidData.h2h;
-            homeForm = rapidData.homeForm;
-            awayForm = rapidData.awayForm;
-            homeStats = rapidData.homeStats;
-            awayStats = rapidData.awayStats;
+        // 1. Process H2H (from TheSportsDB)
+        if (tsdbData && tsdbData.h2h) {
+            context.h2h = tsdbData.h2h;
+            console.log("   -> ✅ H2H Acquired (TheSportsDB).");
+        }
 
-            console.log("   -> ✅ Rich Data Acquired (H2H + Last 5 Games).");
+        // 2. Process Form (from Scraper)
+        if (scraperData && scraperData.homeForm !== "N/A") {
+            context.homeForm = scraperData.homeForm;
+            context.awayForm = scraperData.awayForm;
+            console.log(`   -> ✅ Form Acquired (Scraper): ${context.homeForm} vs ${context.awayForm}`);
+
+            // Simple Stats Derivation from Form String (e.g. "WWLDW")
+            // This is loose, but gives the AI "stats" to reference.
+            const calcStats = (form) => {
+                const wins = (form.match(/W/g) || []).length;
+                const draws = (form.match(/D/g) || []).length;
+                const losses = (form.match(/L/g) || []).length;
+                return { scored: `${wins * 2}+`, conceded: `${losses}+` }; // Rough estimate for AI context
+            };
+
+            context.homeStats = calcStats(context.homeForm);
+            context.awayStats = calcStats(context.awayForm);
         } else {
-            console.log("   -> Match not found in RapidAPI (or ID resolve failed). Skipping.");
-            return null; // Strict Skip
+            console.log("   -> ⚠️ Scraper failed or no data. Using N/A.");
         }
 
     } catch (e) {
-        console.error("   -> RapidAPI Error:", e.message);
-        return null; // Strict Skip
+        console.error("   -> Context Fetch Error:", e.message);
     }
 
-    const isCup = game.league.type === 'Cup';
-    const volatilityContext = isCup ? "Cup Match. High Risk." : "Regular Season.";
-
-    return { h2h: h2hStrings, homeForm, awayForm, volatilityContext, homeStats, awayStats };
+    return context;
 };
 
-
-const generatePrediction = async (context, homeTeam, awayTeam, league) => {
+export const generatePrediction = async (context, homeTeam, awayTeam, league) => {
     try {
+        const GROQ_API_KEY = process.env.GROQ_API_KEY; // Read safely at runtime
         if (!GROQ_API_KEY) throw new Error("No Groq Key");
 
         const groq = new Groq({ apiKey: GROQ_API_KEY });
