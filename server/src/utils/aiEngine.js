@@ -439,8 +439,8 @@ export const generateDailyPredictions = async () => {
                 console.log(`   - Saved!`);
                 newPredictions.push(savedPrediction);
 
-                // Rate Limit Protection (8s for safety with Free Tier)
-                await new Promise(r => setTimeout(r, 8000));
+                // Rate Limit Protection (20s = 3 matches/min = 9 requests/min. Limit is 10.)
+                await new Promise(r => setTimeout(r, 20000));
 
             } catch (err) {
                 console.error(`❌ Error processing fixture:`, err.message);
