@@ -308,7 +308,7 @@ export const generateDailyPredictions = async () => {
         const EXCLUDED_KEYWORDS = [
             'U21', 'U19', 'U18', 'Women', 'Reserve',
             'Premier League 2',
-            'Youth'
+            'Youth', 'Northern', 'Southern', 'Isthmian'
         ];
 
         let selectedFixtures = data.response.filter(f => {

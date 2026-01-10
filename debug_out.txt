@@ -1,0 +1,31 @@
+🚀 STARTING LOCAL DEBUG GENERATION
+📅 Date: 2026-01-10T07:23:08.519Z
+🗑️ Cleared 1 existing predictions.
+🕷️ Fetching Fixtures...
+📅 Using Online True Date: 2026-01-10T07:23:13.542Z
+🕷️ Scraping Fixtures from LiveScore.com for date: 20260110
+✅ Scraped & Mapped 93 Fixtures.
+✅ Scraper Found: 93 raw fixtures.
+   Sample: Real Oviedo vs Real Betis (LaLiga)
+🧠 Triggering AI Generation...
+🤖 AI Engine Processing for: 2026-01-10
+🧹 Cleared stale pending predictions.
+Fetching new fixtures from API...
+📅 Using Online True Date: 2026-01-10T07:23:24.201Z
+🕷️ Scraping Fixtures from LiveScore.com for date: 20260110
+✅ Scraped & Mapped 93 Fixtures.
+⚠️ Too many matches (81). Limiting to Top 12 to avoid timeout.
+🔎 Processing Top 12 matches.
+
+🔎 Processing: Ashton United vs Gainsborough
+   - Fetching Context...
+🔎 Searching Free API for Real Data: Ashton United vs Gainsborough
+🆓 FreeAPI: Looking up match for Ashton United vs Gainsborough (Northern Premier League)
+   -> FreeAPI: Fetched 21 matches in window.
+   -> Match not found in Football-Data.org schedule (Coverage limit?)
+   -> Match not found in Free API (Likely league coverage limit). Using Simulator.
+   - Generating AI Prediction...
+   - AI Result: Double Chance 12
+   - Saving to DB...
+   - Saved!
+🏁 Generation Complete. Created 0 predictions.
