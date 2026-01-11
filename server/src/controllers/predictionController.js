@@ -45,18 +45,21 @@ const enrichPrediction = (p) => {
 
 export const getPredictions = async (req, res) => {
     try {
-        // Always try to generate/fetch valid predictions for today
         const predictions = await generateDailyPredictions();
+        console.log(`📊 Controller: Found ${predictions.length} predictions.`);
 
         let user = req.user;
+        console.log(`👤 User Context: ${user ? `${user.email} (${user.plan})` : 'Guest'}`);
 
         // 0. Handle "View as Guest" override
         if (req.query.view === 'guest') {
             user = null;
+            console.log("👀 View Mode: Forced Guest");
         }
 
         // 1. Guest View (1 Game Visible, but Analysis Locked)
         if (!user) {
+            console.log("🔒 Access: Applying GUEST restrictions.");
             const guestPredictions = predictions.map((p, index) => {
                 const basic = enrichPrediction(p);
                 if (index < 1) {
@@ -65,7 +68,7 @@ export const getPredictions = async (req, res) => {
                         analysis: "🔒 Login to view analysis", // Locked for Guest
                         reasoning: p.reasoning ? p.reasoning.substring(0, 50) + "..." : "Log in to see why.",
                         h2h: "🔒 Login to view",
-                        form: basic.form // Guests CAN see form visuals (badges), that's usually fine/hook
+                        form: basic.form // Guests CAN see form visuals (badges), that's usually fine
                     };
                 }
                 // Rest are fully locked
@@ -95,8 +98,11 @@ export const getPredictions = async (req, res) => {
             user.subscriptionStatus === 'active' &&
             user.subscriptionEnd && new Date(user.subscriptionEnd) > now;
 
+        console.log(`💎 Access: Is Premium? ${isPremium}`);
+
         // 3. Free User View (1 Game Unlocked, Rest Locked)
         if (!isPremium) {
+            console.log("🔓 Access: Applying FREE USER restrictions.");
             const freePredictions = predictions.map((p, index) => {
                 // First 1 is FULLY unlocked
                 if (index < 1) return enrichPrediction(p);
@@ -125,6 +131,7 @@ export const getPredictions = async (req, res) => {
         }
 
         // 4. Premium View (All Access)
+        console.log("✨ Access: PREMIUM UNLOCKED. Serving all.");
         res.json(predictions.map(enrichPrediction));
 
     } catch (error) {

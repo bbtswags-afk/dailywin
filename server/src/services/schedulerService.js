@@ -2,24 +2,34 @@ import cron from 'node-cron';
 import { generateDailyPredictions } from '../utils/aiEngine.js'; // Ensure correct path
 
 export const initScheduler = () => {
-    console.log("⏰ Scheduler Service Initialized.");
+    console.log("⏰ Scheduler Service Initialized (Africa/Lagos).");
 
-    // Run at 00:05 (12:05 AM) every day
-    // "5 0 * * *" means: At minute 5, hour 0, every day
-    cron.schedule('5 0 * * *', async () => {
-        console.log("\n🌙 MIDNIGHT TASK: Starting Daily Prediction Generation...");
+    // Run at 01:00 (1:00 AM) every day Lagos Time
+    cron.schedule('0 1 * * *', async () => {
+        console.log("\n🌙 1:00 AM TASK: Starting Daily Prediction Generation for Nigeria...");
         console.log("-----------------------------------------------------");
 
         try {
-            const predictions = await generateDailyPredictions();
-            console.log(`\n✅ MIDNIGHT TASK COMPLETE: Generated ${predictions.length} predictions.`);
+            // Get Current Date in Nigeria
+            const now = new Date();
+            const formatter = new Intl.DateTimeFormat('en-CA', {
+                timeZone: 'Africa/Lagos',
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit'
+            });
+            const nigeriaDate = formatter.format(now); // "YYYY-MM-DD"
+            console.log(`   -> Target Date (Nigeria): ${nigeriaDate}`);
+
+            const predictions = await generateDailyPredictions(nigeriaDate);
+            console.log(`\n✅ TASK COMPLETE: Generated ${predictions.length} predictions for ${nigeriaDate}.`);
         } catch (error) {
-            console.error("\n❌ MIDNIGHT TASK FAILED:", error);
+            console.error("\n❌ TASK FAILED:", error);
         }
     }, {
         scheduled: true,
-        timezone: "UTC" // Adjust if user wants specific TZ, but UTC/Server time is usually safest
+        timezone: "Africa/Lagos"
     });
 
-    console.log("   -> Daily Prediction Task scheduled for 12:05 AM UTC.");
+    console.log("   -> Daily Prediction Task scheduled for 1:00 AM Lagos Time.");
 };

@@ -207,15 +207,15 @@ const mapLiveScoreEvent = (evt, leagueName, country, leagueId) => ({
 
 import { getTrueDate } from './timeService.js';
 
-export const getScrapedDailyFixtures = async () => {
+export const getScrapedDailyFixtures = async (optionalDateStr) => {
     try {
         // Handle Date (YYYYMMDD) - Use Online Time if override not present
-        const overrideDate = process.env.OVERRIDE_DATE;
+        const overrideDate = process.env.OVERRIDE_DATE || optionalDateStr;
         let dateObj;
 
         if (overrideDate) {
             dateObj = new Date(overrideDate);
-            console.log(`📅 Using OVERRIDE_DATE: ${overrideDate}`);
+            console.log(`📅 Using Target Date: ${overrideDate}`);
         } else {
             dateObj = await getTrueDate();
             console.log(`📅 Using Online True Date: ${dateObj.toISOString()}`);

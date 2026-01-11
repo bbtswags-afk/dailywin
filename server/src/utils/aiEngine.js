@@ -197,12 +197,17 @@ export const generatePrediction = async (context, homeTeam, awayTeam, league, re
     }
 };
 
-export const generateDailyPredictions = async () => {
+export const generateDailyPredictions = async (targetDateString) => {
     try {
-        const dateStr = process.env.OVERRIDE_DATE;
+        const dateStr = process.env.OVERRIDE_DATE || targetDateString;
         let today;
         if (dateStr) {
             today = new Date(dateStr);
+            // Ensure we handle plain date strings correctly if passed
+            if (dateStr.match(/^\d{4}-\d{2}-\d{2}$/)) {
+                // Treat as UTC midnight to avoid timezone shifts if just date is given
+                today = new Date(`${dateStr}T00:00:00.000Z`);
+            }
         } else {
             today = await getTrueDate();
         }
@@ -243,7 +248,7 @@ export const generateDailyPredictions = async () => {
 
         // --- STEP 2: Fetch Fixtures ---
         console.log("Fetching new fixtures from API...");
-        const data = await getScrapedDailyFixtures();
+        const data = await getScrapedDailyFixtures(dateStr);
 
         if (!data.response || data.response.length === 0) {
             console.log("No fixtures found today.");
