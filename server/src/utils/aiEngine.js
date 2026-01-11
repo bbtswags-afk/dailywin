@@ -5,6 +5,39 @@ import { getH2H_TSDB } from './theSportsDbService.js';
 import { getFormFromScraper } from './scraperService.js'; // NEW SOURCE
 import { getTrueDate } from "./timeService.js";
 
+// --- KEY ROTATION UTILS ---
+const getGroqKeys = () => {
+    const raw = process.env.GROQ_API_KEY || "";
+    return raw.split(',').map(k => k.trim()).filter(k => k.length > 10);
+};
+
+let currentKeyIndex = 0;
+
+const getGroqClient = () => {
+    const keys = getGroqKeys();
+    if (keys.length === 0) throw new Error("No Groq Keys available in .env");
+
+    // Rotate if index out of bounds (just safety)
+    if (currentKeyIndex >= keys.length) currentKeyIndex = 0;
+
+    const key = keys[currentKeyIndex];
+    // console.log(`   🔑 Using Key #${currentKeyIndex + 1} (${key.substring(0,6)}...)`); 
+    return new Groq({ apiKey: key });
+};
+
+const rotateKey = () => {
+    const keys = getGroqKeys();
+    if (keys.length <= 1) {
+        console.log("   ⚠️ Only 1 key available. Cannot rotate.");
+        return false;
+    }
+    currentKeyIndex = (currentKeyIndex + 1) % keys.length;
+    console.log(`   🔄 Rotating to Key #${currentKeyIndex + 1}...`);
+    return true;
+};
+// ---------------------------
+
+
 export const getMatchContext = async (game) => {
     const homeTeamName = game.teams.home.name;
     const awayTeamName = game.teams.away.name;
@@ -43,12 +76,11 @@ export const getMatchContext = async (game) => {
             console.log(`   -> ✅ Form Acquired (Scraper): ${context.homeForm} vs ${context.awayForm}`);
 
             // Simple Stats Derivation from Form String (e.g. "WWLDW")
-            // This is loose, but gives the AI "stats" to reference.
             const calcStats = (form) => {
                 const wins = (form.match(/W/g) || []).length;
                 const draws = (form.match(/D/g) || []).length;
                 const losses = (form.match(/L/g) || []).length;
-                return { scored: `${wins * 2}+`, conceded: `${losses}+` }; // Rough estimate for AI context
+                return { scored: `${wins * 2}+`, conceded: `${losses}+` }; // Rough estimate
             };
 
             context.homeStats = calcStats(context.homeForm);
@@ -64,12 +96,9 @@ export const getMatchContext = async (game) => {
     return context;
 };
 
-export const generatePrediction = async (context, homeTeam, awayTeam, league) => {
+export const generatePrediction = async (context, homeTeam, awayTeam, league, retryCount = 0) => {
     try {
-        const GROQ_API_KEY = process.env.GROQ_API_KEY; // Read safely at runtime
-        if (!GROQ_API_KEY) throw new Error("No Groq Key");
-
-        const groq = new Groq({ apiKey: GROQ_API_KEY });
+        const groq = getGroqClient();
 
         const hStats = context.homeStats || { scored: '?', conceded: '?' };
         const aStats = context.awayStats || { scored: '?', conceded: '?' };
@@ -141,9 +170,22 @@ export const generatePrediction = async (context, homeTeam, awayTeam, league) =>
         return JSON.parse(text);
 
     } catch (error) {
-        console.error("AI Error (Groq):", error);
+        console.error(`❌ AI Error (Attempt ${retryCount + 1}):`, error.message);
 
-        // Basic Fallback if AI fails (but using rich data)
+        // CHECK FOR RATE LIMITS OR API ERRORS
+        // 429 = Too Many Requests
+        if ((error.status === 429 || error.message.includes('rate')) && retryCount < 3) {
+            console.log("   ⚠️ Rate Limit Hit!");
+
+            const switched = rotateKey();
+            if (switched) {
+                // Wait small delay then retry with new key
+                await new Promise(r => setTimeout(r, 2000));
+                return generatePrediction(context, homeTeam, awayTeam, league, retryCount + 1);
+            }
+        }
+
+        // Basic Fallback if AI fails completely
         return {
             prediction: "Double Chance 1X",
             odds: "1.30",
@@ -173,56 +215,33 @@ export const generateDailyPredictions = async () => {
         const endOfDay = new Date(today);
         endOfDay.setHours(23, 59, 59, 999);
 
-        // CLEANUP: Remove old pending predictions
-        await prisma.prediction.deleteMany({
-            where: {
-                date: {
-                    not: {
-                        gte: startOfDay,
-                        lte: endOfDay
-                    }
-                },
-                result: 'PENDING'
-            }
-        });
-        console.log("🧹 Cleared stale pending predictions.");
-
-        // 1. Check DB for existing predictions for today
-        const existingPredictions = await prisma.prediction.findMany({
-            where: {
-                date: {
-                    gte: startOfDay,
-                    lte: endOfDay
-                }
-            }
+        // --- STEP 0: Check if we already have today's full batch ---
+        // If we have > 10 predictions, we assume it's done. 
+        // This prevents double-costs if the script re-runs.
+        const existingCount = await prisma.prediction.count({
+            where: { date: { gte: startOfDay, lte: endOfDay } }
         });
 
-        if (existingPredictions.length >= 6) {
-            console.log(`Found ${existingPredictions.length} predictions in DB.`);
-            return existingPredictions.map(p => ({
-                id: p.id,
-                homeTeam: p.homeTeam,
-                awayTeam: p.awayTeam,
-                league: p.league,
-                prediction: p.prediction,
-                confidence: p.confidence,
-                reasoning: p.reasoning,
-                analysis: p.analysis,
-                odds: p.odds,
-                type: p.type,
-                isVolatile: p.isVolatile,
-                time: p.date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-                category: p.category,
-                homeLogo: p.homeLogo,
-                awayLogo: p.awayLogo,
-                form: {
-                    home: typeof p.homeForm === 'string' ? p.homeForm.split('') : [],
-                    away: typeof p.awayForm === 'string' ? p.awayForm.split('') : []
-                }
-            }));
+        // IF CALLED FROM SCHEDULER: user might want to force regen?
+        // But generally, if we have data, we serve it.
+        // If you need FORCE REGEN, use separate script.
+        if (existingCount >= 10) {
+            console.log(`✅ Data already exists (${existingCount} games). Loading from DB...`);
+            return await getPredictionsFromDB(startOfDay, endOfDay);
         }
 
-        // 2. Fetch Real Fixtures from API
+
+        // --- STEP 1: CLEANUP YESTERDAY ---
+        // Just keep DB clean.
+        await prisma.prediction.deleteMany({
+            where: {
+                date: { lt: startOfDay }
+            }
+        });
+        console.log("🧹 Cleared old predictions from DB.");
+
+
+        // --- STEP 2: Fetch Fixtures ---
         console.log("Fetching new fixtures from API...");
         const data = await getScrapedDailyFixtures();
 
@@ -231,14 +250,13 @@ export const generateDailyPredictions = async () => {
             return [];
         }
 
-        // 3. Strict League Filtering
+        // --- STEP 3: Filter & Balance ---
         const STRICT_LEAGUES = [
             'Champions League', 'Premier League', 'LaLiga', 'La Liga', 'Primera Division',
             'Bundesliga', 'Serie A', 'Ligue 1', 'Eredivisie', 'Primeira Liga', 'Liga Portugal',
             'Championship', 'League One', 'Segunda', 'LaLiga 2', 'Hypermotion',
             'Serie B', 'Bundesliga 2', 'Ligue 2', 'FA Cup', 'Copa del Rey', 'Coppa Italia', 'DfB Pokal', 'Coupe de France', 'EFL Cup'
         ];
-
         const EXCLUDED_KEYWORDS = ['U21', 'U19', 'U18', 'Women', 'Reserve', 'Premier League 2', 'Youth'];
 
         let selectedFixtures = data.response.filter(f => {
@@ -248,9 +266,7 @@ export const generateDailyPredictions = async () => {
             return STRICT_LEAGUES.some(keyword => leagueName.includes(keyword));
         });
 
-        // Sort and Limit
-        // ... (Keep existing sorting logic if needed, but for brevity, assuming existing logic or simple slice)
-        // For balanced diversity:
+        // Simple balancing (Top 15 max)
         const grouped = {};
         selectedFixtures.forEach(f => {
             const name = f.league.name;
@@ -261,52 +277,58 @@ export const generateDailyPredictions = async () => {
         let balancedFixtures = [];
         const TARGET_LIMIT = 15;
         const keys = Object.keys(grouped);
-
         let i = 0;
+
+        // Round-robin selection
         while (balancedFixtures.length < TARGET_LIMIT && keys.length > 0) {
             const key = keys[i % keys.length];
             if (grouped[key].length > 0) {
                 balancedFixtures.push(grouped[key].shift());
             }
             i++;
-            // Break if we run out (simple check logic omitted for brevity, expecting enough matches)
-            if (i > 100) break; // Safety
+            if (i > 100) break;
         }
 
         selectedFixtures = balancedFixtures.length > 0 ? balancedFixtures : selectedFixtures.slice(0, 15);
-
         console.log(`🔎 Processing Top ${selectedFixtures.length} matches.`);
 
+
+        // --- STEP 4: SLOW & STEADY GENERATION ---
         const newPredictions = [];
 
-        // 4. Generate Predictions (FAST - No Artificial Delay)
-        for (const fixture of selectedFixtures) {
+        for (const [index, fixture] of selectedFixtures.entries()) {
             try {
+                // THROTTLING WAIT (8 Seconds)
+                // We skip waiting for the FIRST one.
+                if (index > 0) {
+                    console.log(`zzz Sleeping 8s to respect API Speed Limit...`);
+                    await new Promise(resolve => setTimeout(resolve, 8000));
+                }
+
                 const homeTeam = fixture.teams.home.name;
                 const awayTeam = fixture.teams.away.name;
                 const league = fixture.league.name;
 
-                console.log(`\n🔎 Processing: ${homeTeam} vs ${awayTeam}`);
+                console.log(`\n[${index + 1}/${selectedFixtures.length}] 🔎 Analyzing: ${homeTeam} vs ${awayTeam}`);
 
                 const context = await getMatchContext(fixture);
 
                 if (!context) {
                     console.log(`   - Skipped: No Real Data available.`);
-                    continue; // Skip freely, no penalty
+                    continue;
                 }
 
-                // 5. Generate with AI
                 const prediction = await generatePrediction(context, homeTeam, awayTeam, league);
                 const marketValue = prediction.prediction || "Double Chance 1X";
-                console.log(`   - AI Result: ${marketValue}`);
+                console.log(`   - 🧠 AI Says: ${marketValue}`);
 
-                // 6. Save to DB
                 let category = "Safe";
                 if (marketValue.includes("Win")) category = "Straight Wins";
                 if (marketValue.includes("Corner")) category = "Corners";
                 if (marketValue.includes("Double")) category = "Double Chance";
                 if (marketValue.includes("Over") || marketValue.includes("Under")) category = "Goals";
 
+                // Save Immediately to DB
                 const savedPrediction = await prisma.prediction.create({
                     data: {
                         date: today,
@@ -324,15 +346,13 @@ export const generateDailyPredictions = async () => {
                         result: 'PENDING',
                         homeLogo: context.homeLogo || fixture.teams.home.logo,
                         awayLogo: context.awayLogo || fixture.teams.away.logo,
-                        homeLogo: context.homeLogo || fixture.teams.home.logo,
-                        awayLogo: context.awayLogo || fixture.teams.away.logo,
                         homeForm: context.homeForm,
                         awayForm: context.awayForm,
                         fixtureId: parseInt(fixture.fixture.id)
                     }
                 });
 
-                console.log(`   - Saved!`);
+                console.log(`   - 💾 Saved to DB.`);
                 newPredictions.push(savedPrediction);
 
             } catch (err) {
@@ -341,40 +361,41 @@ export const generateDailyPredictions = async () => {
             }
         }
 
-        // Return combined list
-        const allPredictions = await prisma.prediction.findMany({
-            where: {
-                date: {
-                    gte: startOfDay,
-                    lte: endOfDay
-                }
-            }
-        });
-
-        return allPredictions.map(p => ({
-            id: p.id,
-            homeTeam: p.homeTeam,
-            awayTeam: p.awayTeam,
-            league: p.league,
-            prediction: p.prediction,
-            confidence: p.confidence,
-            reasoning: p.reasoning,
-            analysis: p.analysis,
-            odds: p.odds,
-            type: p.type,
-            isVolatile: p.isVolatile,
-            time: p.date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-            category: p.category,
-            homeLogo: p.homeLogo,
-            awayLogo: p.awayLogo,
-            form: {
-                home: typeof p.homeForm === 'string' ? p.homeForm.split('') : [],
-                away: typeof p.awayForm === 'string' ? p.awayForm.split('') : []
-            }
-        }));
+        return getPredictionsFromDB(startOfDay, endOfDay);
 
     } catch (error) {
         console.error("Prediction Logic Error:", error);
         return [];
     }
 };
+
+// Helper to format output consistently
+async function getPredictionsFromDB(start, end) {
+    const all = await prisma.prediction.findMany({
+        where: {
+            date: { gte: start, lte: end }
+        }
+    });
+
+    return all.map(p => ({
+        id: p.id,
+        homeTeam: p.homeTeam,
+        awayTeam: p.awayTeam,
+        league: p.league,
+        prediction: p.prediction,
+        confidence: p.confidence,
+        reasoning: p.reasoning,
+        analysis: p.analysis,
+        odds: p.odds,
+        type: p.type,
+        isVolatile: p.isVolatile,
+        time: p.date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        category: p.category,
+        homeLogo: p.homeLogo,
+        awayLogo: p.awayLogo,
+        form: {
+            home: typeof p.homeForm === 'string' ? p.homeForm.split('') : [],
+            away: typeof p.awayForm === 'string' ? p.awayForm.split('') : []
+        }
+    }));
+}

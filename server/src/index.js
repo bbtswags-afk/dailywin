@@ -5,6 +5,7 @@ import authRoutes from './routes/authRoutes.js';
 import predictionRoutes from './routes/predictionRoutes.js';
 import paymentRoutes from './routes/paymentRoutes.js';
 import adminRoutes from './routes/adminRoutes.js';
+import { initScheduler } from './services/schedulerService.js';
 
 dotenv.config();
 
@@ -35,4 +36,5 @@ app.get('/', (req, res) => {
 
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
+    initScheduler(); // Start the midnight task
 });
