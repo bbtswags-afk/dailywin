@@ -1,5 +1,6 @@
 
 import prisma from '../utils/prisma.js';
+import { generateDailyPredictions } from '../utils/aiEngine.js';
 
 // Get Dashboard Stats (Optional but useful)
 export const getAdminStats = async (req, res) => {
@@ -99,5 +100,22 @@ export const deleteUser = async (req, res) => {
         res.json({ message: `Deleted user ${email}` });
     } catch (error) {
         res.status(500).json({ message: "Error deleting user" });
+    }
+};
+
+// Force Trigger Generator
+export const triggerGeneration = async (req, res) => {
+    try {
+        console.log("⚡ Admin triggered manual generation...");
+        // Run in background so we don't block response
+        generateDailyPredictions().then(preds => {
+            console.log(`✅ Manual generation complete. ${preds.length} games.`);
+        }).catch(err => {
+            console.error("❌ Manual generation failed:", err);
+        });
+
+        res.json({ message: "Generation started! Check back in 2-3 minutes." });
+    } catch (error) {
+        res.status(500).json({ message: "Failed to trigger generation" });
     }
 };

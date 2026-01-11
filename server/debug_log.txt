@@ -1,19 +1,221 @@
-Prediction Logic Error: PrismaClientInitializationError: 
-Invalid `prisma.prediction.deleteMany()` invocation:
+🧹 FORCE CLEARED PENDING PREDICTIONS.
+🤖 AI Engine Processing for: 2026-01-11
+🧹 Cleared old predictions from DB.
+Fetching new fixtures from API...
+📅 Using Online True Date: 2026-01-11T06:24:42.205Z
+🕷️ Scraping Fixtures from LiveScore.com for date: 20260111
+✅ Scraped & Mapped 90 Fixtures.
+🔎 Processing Top 15 matches.
 
+[1/15] 🔎 Analyzing: Rayo Vallecano vs Mallorca
+🔎 Match Context: Fetching Rich Data for Rayo Vallecano vs Mallorca
+🦕 TSDB: Looking up H2H for "Rayo Vallecano" vs "Mallorca"
+🕷️ Scraper (FBref): Fetching Form for "Rayo Vallecano" vs "Mallorca"
+   -> ✅ Found 2 past meetings.
+   -> Found Team Links:
+      Home: https://fbref.com/en/squads/98e8af82/Rayo-Vallecano-Stats
+      Away: https://fbref.com/en/squads/2aa12281/Mallorca-Stats
+   -> ✅ Form Extracted: Home="DWLDW", Away="DWLDL"
+   -> ✅ H2H Acquired (TheSportsDB).
+   -> ✅ Form Acquired (Scraper): DWLDW vs DWLDL
+   - 🧠 AI Says: Over 1.5 Goals
+   - 💾 Saved to DB.
+zzz Sleeping 8s to respect API Speed Limit...
 
-Can't reach database server at `ep-steep-hill-ah1d28dl-pooler.c-3.us-east-1.aws.neon.tech:5432`
+[2/15] 🔎 Analyzing: Borussia M'gladbach vs Augsburg
+🔎 Match Context: Fetching Rich Data for Borussia M'gladbach vs Augsburg
+🦕 TSDB: Looking up H2H for "Borussia M'gladbach" vs "Augsburg"
+🕷️ Scraper (FBref): Fetching Form for "Borussia M'gladbach" vs "Augsburg"
+   -> ⚠️ No H2H found via Search.
+   -> ⚠️ Scraper: Match not found in today's list.
+   -> ✅ H2H Acquired (TheSportsDB).
+   -> ⚠️ Scraper failed or no data. Using N/A.
+   - 🧠 AI Says: Over 1.5 Goals
+   - 💾 Saved to DB.
+zzz Sleeping 8s to respect API Speed Limit...
 
-Please make sure your database server is running at `ep-steep-hill-ah1d28dl-pooler.c-3.us-east-1.aws.neon.tech:5432`.
-PrismaClientInitializationError: 
-Invalid `prisma.prediction.deleteMany()` invocation:
+[3/15] 🔎 Analyzing: Lecce vs Parma
+🔎 Match Context: Fetching Rich Data for Lecce vs Parma
+🦕 TSDB: Looking up H2H for "Lecce" vs "Parma"
+🕷️ Scraper (FBref): Fetching Form for "Lecce" vs "Parma"
+   -> ✅ Found 5 past meetings.
+   -> Found Team Links:
+      Home: https://fbref.com/en/squads/ffcbe334/Lecce-Stats
+      Away: https://fbref.com/en/squads/eab4234c/Parma-Stats
+   -> ✅ Form Extracted: Home="LWLDL", Away="WLWDL"
+   -> ✅ H2H Acquired (TheSportsDB).
+   -> ✅ Form Acquired (Scraper): LWLDL vs WLWDL
+   - 🧠 AI Says: Over 1.5 Goals
+   - 💾 Saved to DB.
+zzz Sleeping 8s to respect API Speed Limit...
 
+[4/15] 🔎 Analyzing: Derby County vs Leeds United
+🔎 Match Context: Fetching Rich Data for Derby County vs Leeds United
+🦕 TSDB: Looking up H2H for "Derby County" vs "Leeds United"
+🕷️ Scraper (FBref): Fetching Form for "Derby County" vs "Leeds United"
+   -> ✅ Found 2 past meetings.
+   -> Found Team Links:
+      Home: https://fbref.com/en/squads/26ab47ee/Derby-County-Stats
+      Away: https://fbref.com/en/squads/5bfb9659/Leeds-United-Stats
+   -> ✅ Form Extracted: Home="DDLWL", Away="WDDDL"
+   -> ✅ H2H Acquired (TheSportsDB).
+   -> ✅ Form Acquired (Scraper): DDLWL vs WDDDL
+   - 🧠 AI Says: Over 1.5 Goals
+   - 💾 Saved to DB.
+zzz Sleeping 8s to respect API Speed Limit...
 
-Can't reach database server at `ep-steep-hill-ah1d28dl-pooler.c-3.us-east-1.aws.neon.tech:5432`
+[5/15] 🔎 Analyzing: Sochaux vs Lens
+🔎 Match Context: Fetching Rich Data for Sochaux vs Lens
+🦕 TSDB: Looking up H2H for "Sochaux" vs "Lens"
+🕷️ Scraper (FBref): Fetching Form for "Sochaux" vs "Lens"
+   -> ✅ Found 6 past meetings.
+   -> Found Team Links:
+      Home: https://fbref.com/en/squads/b9cd3c9a/Sochaux-Stats
+      Away: https://fbref.com/en/squads/fd4e0f7d/Lens-Stats
+   -> ✅ Form Extracted: Home="DWW", Away="WWWWW"
+   -> ✅ H2H Acquired (TheSportsDB).
+   -> ✅ Form Acquired (Scraper): DWW vs WWWWW
+   - 🧠 AI Says: Over 1.5 Goals
+   - 💾 Saved to DB.
+zzz Sleeping 8s to respect API Speed Limit...
 
-Please make sure your database server is running at `ep-steep-hill-ah1d28dl-pooler.c-3.us-east-1.aws.neon.tech:5432`.
-    at ei.handleRequestError (C:\Users\TuNeX\Desktop\DAILYWIN AI\server\node_modules\@prisma\client\runtime\library.js:121:7568)
-    at ei.handleAndLogRequestError (C:\Users\TuNeX\Desktop\DAILYWIN AI\server\node_modules\@prisma\client\runtime\library.js:121:6593)
-    at ei.request (C:\Users\TuNeX\Desktop\DAILYWIN AI\server\node_modules\@prisma\client\runtime\library.js:121:6300)
-    at async a (C:\Users\TuNeX\Desktop\DAILYWIN AI\server\node_modules\@prisma\client\runtime\library.js:130:9551)
-    at async run (file:///C:/Users/TuNeX/Desktop/DAILYWIN%20AI/server/trigger_predictions.js:44:9)
+[6/15] 🔎 Analyzing: SC Heerenveen vs Feyenoord
+🔎 Match Context: Fetching Rich Data for SC Heerenveen vs Feyenoord
+🦕 TSDB: Looking up H2H for "SC Heerenveen" vs "Feyenoord"
+🕷️ Scraper (FBref): Fetching Form for "SC Heerenveen" vs "Feyenoord"
+   -> ✅ Found 13 past meetings.
+   -> ⚠️ Scraper: Match not found in today's list.
+   -> ✅ H2H Acquired (TheSportsDB).
+   -> ⚠️ Scraper failed or no data. Using N/A.
+   - 🧠 AI Says: Over 1.5 Goals
+   - 💾 Saved to DB.
+zzz Sleeping 8s to respect API Speed Limit...
+
+[7/15] 🔎 Analyzing: Nacional vs Santa Clara
+🔎 Match Context: Fetching Rich Data for Nacional vs Santa Clara
+🦕 TSDB: Looking up H2H for "Nacional" vs "Santa Clara"
+🕷️ Scraper (FBref): Fetching Form for "Nacional" vs "Santa Clara"
+   -> ⚠️ No H2H found via Search.
+   -> Found Team Links:
+      Home: https://fbref.com/en/squads/5c9eb756/Nacional-Stats
+      Away: https://fbref.com/en/squads/f5b64cb1/Santa-Clara-Stats
+   -> ✅ Form Extracted: Home="LLWDL", Away="DWLDL"
+   -> ✅ H2H Acquired (TheSportsDB).
+   -> ✅ Form Acquired (Scraper): LLWDL vs DWLDL
+   - 🧠 AI Says: Over 1.5 Goals
+   - 💾 Saved to DB.
+zzz Sleeping 8s to respect API Speed Limit...
+
+[8/15] 🔎 Analyzing: Leganes vs Real Valladolid
+🔎 Match Context: Fetching Rich Data for Leganes vs Real Valladolid
+🦕 TSDB: Looking up H2H for "Leganes" vs "Real Valladolid"
+🕷️ Scraper (FBref): Fetching Form for "Leganes" vs "Real Valladolid"
+   -> ✅ Found 2 past meetings.
+   -> ⚠️ Scraper: Match not found in today's list.
+   -> ✅ H2H Acquired (TheSportsDB).
+   -> ⚠️ Scraper failed or no data. Using N/A.
+   - 🧠 AI Says: Double Chance 1X
+   - 💾 Saved to DB.
+zzz Sleeping 8s to respect API Speed Limit...
+
+[9/15] 🔎 Analyzing: Mantova vs Palermo
+🔎 Match Context: Fetching Rich Data for Mantova vs Palermo
+🦕 TSDB: Looking up H2H for "Mantova" vs "Palermo"
+🕷️ Scraper (FBref): Fetching Form for "Mantova" vs "Palermo"
+   -> ✅ Found 2 past meetings.
+   -> Found Team Links:
+      Home: https://fbref.com/en/squads/db80f322/Mantova-Stats
+      Away: https://fbref.com/en/squads/ee058a17/Palermo-Stats
+   -> ✅ Form Extracted: Home="LLLLD", Away="WWWDW"
+   -> ✅ H2H Acquired (TheSportsDB).
+   -> ✅ Form Acquired (Scraper): LLLLD vs WWWDW
+   - 🧠 AI Says: Over 0.5 Goals
+   - 💾 Saved to DB.
+zzz Sleeping 8s to respect API Speed Limit...
+
+[10/15] 🔎 Analyzing: Portimonense vs Felgueiras 1932
+🔎 Match Context: Fetching Rich Data for Portimonense vs Felgueiras 1932
+🦕 TSDB: Looking up H2H for "Portimonense" vs "Felgueiras 1932"
+🕷️ Scraper (FBref): Fetching Form for "Portimonense" vs "Felgueiras 1932"
+   -> ⚠️ No H2H found via Search.
+   -> ⚠️ Scraper: Match not found in today's list.
+   -> ✅ H2H Acquired (TheSportsDB).
+   -> ⚠️ Scraper failed or no data. Using N/A.
+   - 🧠 AI Says: Over 0.5 Goals
+   - 💾 Saved to DB.
+zzz Sleeping 8s to respect API Speed Limit...
+
+[11/15] 🔎 Analyzing: Celta Vigo B vs Barakaldo
+🔎 Match Context: Fetching Rich Data for Celta Vigo B vs Barakaldo
+🦕 TSDB: Looking up H2H for "Celta Vigo B" vs "Barakaldo"
+🕷️ Scraper (FBref): Fetching Form for "Celta Vigo B" vs "Barakaldo"
+   -> ⚠️ No H2H found via Search.
+   -> ⚠️ Scraper: Match not found in today's list.
+   -> ✅ H2H Acquired (TheSportsDB).
+   -> ⚠️ Scraper failed or no data. Using N/A.
+   - 🧠 AI Says: Over 0.5 Goals
+   - 💾 Saved to DB.
+zzz Sleeping 8s to respect API Speed Limit...
+
+[12/15] 🔎 Analyzing: Cartagena vs UD Ibiza
+🔎 Match Context: Fetching Rich Data for Cartagena vs UD Ibiza
+🦕 TSDB: Looking up H2H for "Cartagena" vs "UD Ibiza"
+🕷️ Scraper (FBref): Fetching Form for "Cartagena" vs "UD Ibiza"
+   -> ⚠️ No H2H found via Search.
+   -> ⚠️ Scraper: Match not found in today's list.
+   -> ✅ H2H Acquired (TheSportsDB).
+   -> ⚠️ Scraper failed or no data. Using N/A.
+   - 🧠 AI Says: Over 0.5 Goals
+   - 💾 Saved to DB.
+zzz Sleeping 8s to respect API Speed Limit...
+
+[13/15] 🔎 Analyzing: Real Oviedo B vs UD Samano
+🔎 Match Context: Fetching Rich Data for Real Oviedo B vs UD Samano
+🦕 TSDB: Looking up H2H for "Real Oviedo B" vs "UD Samano"
+🕷️ Scraper (FBref): Fetching Form for "Real Oviedo B" vs "UD Samano"
+   -> ⚠️ No H2H found via Search.
+   -> ⚠️ Scraper: Match not found in today's list.
+   -> ✅ H2H Acquired (TheSportsDB).
+   -> ⚠️ Scraper failed or no data. Using N/A.
+   - 🧠 AI Says: Over 0.5 Goals
+   - 💾 Saved to DB.
+zzz Sleeping 8s to respect API Speed Limit...
+
+[14/15] 🔎 Analyzing: CD Basconia vs Beasain
+🔎 Match Context: Fetching Rich Data for CD Basconia vs Beasain
+🦕 TSDB: Looking up H2H for "CD Basconia" vs "Beasain"
+🕷️ Scraper (FBref): Fetching Form for "CD Basconia" vs "Beasain"
+   -> ⚠️ No H2H found via Search.
+   -> ⚠️ Scraper: Match not found in today's list.
+   -> ✅ H2H Acquired (TheSportsDB).
+   -> ⚠️ Scraper failed or no data. Using N/A.
+   - 🧠 AI Says: Over 0.5 Goals
+   - 💾 Saved to DB.
+zzz Sleeping 8s to respect API Speed Limit...
+
+[15/15] 🔎 Analyzing: Atletico Baleares vs Barbastro
+🔎 Match Context: Fetching Rich Data for Atletico Baleares vs Barbastro
+🦕 TSDB: Looking up H2H for "Atletico Baleares" vs "Barbastro"
+🕷️ Scraper (FBref): Fetching Form for "Atletico Baleares" vs "Barbastro"
+   -> ✅ Found 1 past meetings.
+   -> ⚠️ Scraper: Match not found in today's list.
+   -> ✅ H2H Acquired (TheSportsDB).
+   -> ⚠️ Scraper failed or no data. Using N/A.
+   - 🧠 AI Says: Over 0.5 Goals
+   - 💾 Saved to DB.
+✅ Generated/Found 15 Predictions.
+[Bundesliga] Borussia M'gladbach vs Augsburg -> Over 1.5 Goals (Goals)
+[Serie A] Lecce vs Parma -> Over 1.5 Goals (Goals)
+[FA Cup: Round 3] Derby County vs Leeds United -> Over 1.5 Goals (Goals)
+[Coupe de France] Sochaux vs Lens -> Over 1.5 Goals (Goals)
+[Eredivisie] SC Heerenveen vs Feyenoord -> Over 1.5 Goals (Goals)
+[Primeira Liga] Nacional vs Santa Clara -> Over 1.5 Goals (Goals)
+[LaLiga 2] Leganes vs Real Valladolid -> Double Chance 1X (Double Chance)
+[Serie B] Mantova vs Palermo -> Over 0.5 Goals (Goals)
+[Liga Portugal 2] Portimonense vs Felgueiras 1932 -> Over 0.5 Goals (Goals)
+[Primera Division RFEF: Group 1] Celta Vigo B vs Barakaldo -> Over 0.5 Goals (Goals)
+[Primera Division RFEF: Group 2] Cartagena vs UD Ibiza -> Over 0.5 Goals (Goals)
+[Segunda Division RFEF: Group 1] Real Oviedo B vs UD Samano -> Over 0.5 Goals (Goals)
+[Segunda Division RFEF: Group 2] CD Basconia vs Beasain -> Over 0.5 Goals (Goals)
+[Segunda Division RFEF: Group 3] Atletico Baleares vs Barbastro -> Over 0.5 Goals (Goals)
+[LaLiga] Rayo Vallecano vs Mallorca -> Over 1.5 Goals (Goals)
