@@ -1,52 +1,32 @@
-import { generateDailyPredictions } from '../utils/aiEngine.js';
+import { generateDailyPredictions, getPredictionsFromDB } from '../utils/aiEngine.js';
 import { getLiveScores } from '../utils/footballApi.js';
 import prisma from '../utils/prisma.js';
 
-// In-memory cache for predictions (optional, can be expanded)
-let predictionsCache = {
-    data: [],
-    lastUpdated: 0
-};
-
-const CACHE_DURATION = 60 * 60 * 1000; // 1 Hour
-
-export const getLive = async (req, res) => {
-    try {
-        const data = await getLiveScores();
-        res.json(data);
-    } catch (error) {
-        console.error("Live Score Error:", error);
-        res.status(500).json({ response: [] });
-    }
-};
-
-// Helper to parse detailed analysis string into structured props
-const enrichPrediction = (p) => {
-    // START with the existing values (don't overwrite with defaults yet)
-    let h2h = p.h2h || "N/A";
-    let form = p.form || { home: [], away: [] };
-
-    // Parse legacy format ONLY if data is missing
-    if (p.analysis && p.analysis.includes("H2H:") && h2h === "N/A") {
-        const h2hMatch = p.analysis.match(/H2H: (.*?)\. Form:/);
-        if (h2hMatch) h2h = h2hMatch[1];
-    }
-
-    if (p.analysis && (!form.home || form.home.length === 0)) {
-        const homeFormMatch = p.analysis.match(/Form: Home ([A-Z,]+)/);
-        const awayFormMatch = p.analysis.match(/Away ([A-Z,]+)/);
-
-        if (homeFormMatch) form.home = homeFormMatch[1].split('').filter(c => ['W', 'D', 'L'].includes(c));
-        if (awayFormMatch) form.away = awayFormMatch[1].split('').filter(c => ['W', 'D', 'L'].includes(c));
-    }
-
-    return { ...p, h2h, form };
-};
+// ... (keep usage of getPredictionsFromDB)
 
 export const getPredictions = async (req, res) => {
     try {
-        const predictions = await generateDailyPredictions();
-        console.log(`📊 Controller: Found ${predictions.length} predictions.`);
+        // --- FAST PATH OPTIMIZATION ---
+        // 1. Check DB immediately using System Time (Africa/Lagos approximation or UTC)
+        // We just need "Today" in general.
+        const currentTime = new Date();
+        const startOfDay = new Date(currentTime); startOfDay.setHours(0, 0, 0, 0);
+        const endOfDay = new Date(currentTime); endOfDay.setHours(23, 59, 59, 999);
+
+        const count = await prisma.prediction.count({
+            where: { date: { gte: startOfDay, lte: endOfDay } }
+        });
+
+        let predictions = [];
+        if (count > 0) {
+            console.log(`⚡ Fast Path: Loaded ${count} predictions from DB.`);
+            predictions = await getPredictionsFromDB(startOfDay, endOfDay);
+        } else {
+            console.log("⚠️ DB Empty. Triggering Slow Generation...");
+            predictions = await generateDailyPredictions();
+        }
+
+        console.log(`📊 Controller: Serving ${predictions.length} predictions.`);
 
         let user = req.user;
         console.log(`👤 User Context: ${user ? `${user.email} (${user.plan})` : 'Guest'}`);

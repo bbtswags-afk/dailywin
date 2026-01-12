@@ -378,7 +378,7 @@ export const generateDailyPredictions = async (targetDateString) => {
 };
 
 // Helper to format output consistently
-async function getPredictionsFromDB(start, end) {
+export async function getPredictionsFromDB(start, end) {
     const all = await prisma.prediction.findMany({
         where: {
             date: { gte: start, lte: end }
