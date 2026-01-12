@@ -38,7 +38,7 @@ const rotateKey = () => {
 // ---------------------------
 
 
-export const getMatchContext = async (game) => {
+export const getMatchContext = async (game, dateStr) => {
     const homeTeamName = game.teams.home.name;
     const awayTeamName = game.teams.away.name;
 
@@ -58,7 +58,7 @@ export const getMatchContext = async (game) => {
         // Run Hybrid Fetch in Parallel
         const [tsdbData, scraperData] = await Promise.all([
             getH2H_TSDB(homeTeamName, awayTeamName),
-            getFormFromScraper(homeTeamName, awayTeamName)
+            getFormFromScraper(homeTeamName, awayTeamName, dateStr)
         ]);
 
         // 1. Process H2H (from TheSportsDB)
@@ -316,7 +316,10 @@ export const generateDailyPredictions = async (targetDateString) => {
 
                 console.log(`\n[${index + 1}/${selectedFixtures.length}] 🔎 Analyzing: ${homeTeam} vs ${awayTeam}`);
 
-                const context = await getMatchContext(fixture);
+                // Calculate Simple Date String (YYYY-MM-DD) from the main loop's 'today' object
+                const simpleDateStr = today.toISOString().split('T')[0];
+
+                const context = await getMatchContext(fixture, simpleDateStr);
 
                 if (!context) {
                     console.log(`   - Skipped: No Real Data available.`);

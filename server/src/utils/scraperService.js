@@ -3,10 +3,10 @@ import puppeteer from 'puppeteer';
 /**
  * Scrapes FBref.com for Team Form via Team Pages.
  */
-export const getFormFromScraper = async (homeName, awayName) => {
+export const getFormFromScraper = async (homeName, awayName, dateStr) => {
     let browser = null;
     try {
-        console.log(`🕷️ Scraper (FBref): Fetching Form for "${homeName}" vs "${awayName}"`);
+        console.log(`🕷️ Scraper (FBref): Fetching Form for "${homeName}" vs "${awayName}" (Date: ${dateStr || 'Default'})`);
 
         browser = await puppeteer.launch({
             headless: "new",
@@ -17,7 +17,8 @@ export const getFormFromScraper = async (homeName, awayName) => {
         await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.127 Safari/537.36');
 
         // 1. Go to Daily Matches List on FBref
-        const listUrl = "https://fbref.com/en/matches/";
+        // If dateStr is provided (YYYY-MM-DD), use it. Else default.
+        const listUrl = dateStr ? `https://fbref.com/en/matches/${dateStr}` : "https://fbref.com/en/matches/";
         await page.goto(listUrl, { waitUntil: 'domcontentloaded', timeout: 30000 });
 
         // 2. Find Team Links
