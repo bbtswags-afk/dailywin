@@ -190,7 +190,7 @@ export const generatePrediction = async (context, homeTeam, awayTeam, league, re
             prediction: "Double Chance 1X",
             odds: "1.30",
             confidence: 60,
-            reasoning: "AI Service Unreachable. Defaulting to safe home preference.",
+            reasoning: `AI Service Error: ${error.message || "Unreachable"}. Defaulting to safe preference.`,
             type: "Safe",
             isVolatile: true
         };
