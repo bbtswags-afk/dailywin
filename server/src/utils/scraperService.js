@@ -26,12 +26,31 @@ export const getFormFromScraper = async (homeName, awayName, dateStr) => {
         await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.127 Safari/537.36');
 
         // 1. Go to Daily Matches List on FBref
-        // If dateStr is provided (YYYY-MM-DD), use it. Else default.
-        const listUrl = dateStr ? `https://fbref.com/en/matches/${dateStr}` : "https://fbref.com/en/matches/";
+        // CHECK FOR YEAR OFFSET: User is in 2026, but data is in 2025.
+        // We map 2026 back to 2025 for the *Scraper URL only* so we find the real stats.
+        let scrapeDate = dateStr;
+        if (dateStr && dateStr.includes('2026')) {
+            scrapeDate = dateStr.replace('2026', '2025');
+            console.log(`   -> ⚠️ Mapping Simulation Year: ${dateStr} -> ${scrapeDate}`);
+        }
+
+        const listUrl = scrapeDate ? `https://fbref.com/en/matches/${scrapeDate}` : "https://fbref.com/en/matches/";
         await page.goto(listUrl, { waitUntil: 'domcontentloaded', timeout: 30000 });
 
         // 2. Find Team Links
+        // DEBUG MODE: Return all team names found to see why we missed.
+        const debugTeams = await page.evaluate(() => {
+            const rows = Array.from(document.querySelectorAll('table.stats_table tbody tr'));
+            return rows.map(r => {
+                const h = r.querySelector('td[data-stat="home_team"] a')?.innerText;
+                const a = r.querySelector('td[data-stat="away_team"] a')?.innerText;
+                return `${h} vs ${a}`;
+            }).filter(s => !s.includes('undefined'));
+        });
+        console.log("DEBUG: Found matches on FBRef:", debugTeams);
+
         const teamLinks = await page.evaluate((h, a) => {
+            // ... existing logic ...
             const clean = (n) => n.toLowerCase().replace(/ fc| cf| real| football club| utd| united/g, '').trim();
             const hClean = clean(h);
             const aClean = clean(a);
@@ -46,7 +65,10 @@ export const getFormFromScraper = async (homeName, awayName, dateStr) => {
                     const hText = homeNode.innerText.toLowerCase();
                     const aText = awayNode.innerText.toLowerCase();
 
-                    if (hText.includes(hClean) && aText.includes(aClean)) {
+                    // RELAXED MATCHING: Check if one includes the other
+                    // e.g. "Leipzig" in "RB Leipzig"
+                    if ((hText.includes(hClean) || hClean.includes(hText)) &&
+                        (aText.includes(aClean) || aClean.includes(aText))) {
                         return { home: homeNode.href, away: awayNode.href };
                     }
                 }
