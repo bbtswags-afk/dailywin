@@ -10,7 +10,16 @@ export const getFormFromScraper = async (homeName, awayName, dateStr) => {
 
         browser = await puppeteer.launch({
             headless: "new",
-            args: ['--no-sandbox', '--disable-setuid-sandbox']
+            args: [
+                '--no-sandbox',
+                '--disable-setuid-sandbox',
+                '--disable-dev-shm-usage', // Critical for Render/Docker
+                '--disable-gpu',
+                '--no-zygote',
+                '--single-process'
+            ],
+            ignoreHTTPSErrors: true,
+            timeout: 60000 // Increase timeout for slow server start
         });
 
         const page = await browser.newPage();
