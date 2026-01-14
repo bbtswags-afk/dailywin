@@ -26,31 +26,12 @@ export const getFormFromScraper = async (homeName, awayName, dateStr) => {
         await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.127 Safari/537.36');
 
         // 1. Go to Daily Matches List on FBref
-        // CHECK FOR YEAR OFFSET: User is in 2026, but data is in 2025.
-        // We map 2026 back to 2025 for the *Scraper URL only* so we find the real stats.
-        let scrapeDate = dateStr;
-        if (dateStr && dateStr.includes('2026')) {
-            scrapeDate = dateStr.replace('2026', '2025');
-            console.log(`   -> ⚠️ Mapping Simulation Year: ${dateStr} -> ${scrapeDate}`);
-        }
-
-        const listUrl = scrapeDate ? `https://fbref.com/en/matches/${scrapeDate}` : "https://fbref.com/en/matches/";
+        // If dateStr is provided (YYYY-MM-DD), use it. Else default.
+        const listUrl = dateStr ? `https://fbref.com/en/matches/${dateStr}` : "https://fbref.com/en/matches/";
         await page.goto(listUrl, { waitUntil: 'domcontentloaded', timeout: 30000 });
 
         // 2. Find Team Links
-        // DEBUG MODE: Return all team names found to see why we missed.
-        const debugTeams = await page.evaluate(() => {
-            const rows = Array.from(document.querySelectorAll('table.stats_table tbody tr'));
-            return rows.map(r => {
-                const h = r.querySelector('td[data-stat="home_team"] a')?.innerText;
-                const a = r.querySelector('td[data-stat="away_team"] a')?.innerText;
-                return `${h} vs ${a}`;
-            }).filter(s => !s.includes('undefined'));
-        });
-        console.log("DEBUG: Found matches on FBRef:", debugTeams);
-
         const teamLinks = await page.evaluate((h, a) => {
-            // ... existing logic ...
             const clean = (n) => n.toLowerCase().replace(/ fc| cf| real| football club| utd| united/g, '').trim();
             const hClean = clean(h);
             const aClean = clean(a);
@@ -65,10 +46,7 @@ export const getFormFromScraper = async (homeName, awayName, dateStr) => {
                     const hText = homeNode.innerText.toLowerCase();
                     const aText = awayNode.innerText.toLowerCase();
 
-                    // RELAXED MATCHING: Check if one includes the other
-                    // e.g. "Leipzig" in "RB Leipzig"
-                    if ((hText.includes(hClean) || hClean.includes(hText)) &&
-                        (aText.includes(aClean) || aClean.includes(aText))) {
+                    if (hText.includes(hClean) && aText.includes(aClean)) {
                         return { home: homeNode.href, away: awayNode.href };
                     }
                 }
@@ -77,8 +55,55 @@ export const getFormFromScraper = async (homeName, awayName, dateStr) => {
         }, homeName, awayName);
 
         if (!teamLinks) {
-            console.log(`   -> ⚠️ Scraper: Match not found in today's list.`);
-            return { homeForm: "N/A", awayForm: "N/A" };
+            console.log(`   -> ⚠️ Scraper: Match not found in daily list. Attempting Direct Team Search...`);
+
+            // FALLBACK: Search for teams directly using FBref Search
+            const searchAndGetUrl = async (teamName) => {
+                try {
+                    const cleanName = teamName.replace(/ fc| cf| football club/gi, '').trim();
+                    const searchUrl = `https://fbref.com/en/search/search.fcgi?search=${encodeURIComponent(cleanName)}`;
+
+                    const searchPage = await browser.newPage();
+                    await searchPage.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.127 Safari/537.36');
+                    await searchPage.goto(searchUrl, { waitUntil: 'domcontentloaded', timeout: 15000 });
+
+                    // Usually redirects to team page if exact match, or shows list
+                    // We check if we are on a team page (URL contains /squads/) or search list
+                    const url = searchPage.url();
+
+                    let teamUrl = null;
+                    if (url.includes('/squads/')) {
+                        teamUrl = url;
+                    } else {
+                        // Pick first result in "Squads" section
+                        // Select: #squads .result-item a (generic guess, need robust selector)
+                        // FBref search structure: .search-item-name a
+                        const firstLink = await searchPage.$('.search-item-name a');
+                        if (firstLink) {
+                            const href = await page.evaluate(el => el.href, firstLink);
+                            teamUrl = href;
+                        }
+                    }
+                    await searchPage.close();
+                    return teamUrl;
+                } catch (e) {
+                    console.error("Search Error:", e.message);
+                    return null;
+                }
+            };
+
+            const [homeUrl, awayUrl] = await Promise.all([
+                searchAndGetUrl(homeName),
+                searchAndGetUrl(awayName)
+            ]);
+
+            if (!homeUrl || !awayUrl) {
+                console.log("   -> ❌ Fallback Search failed.");
+                return { homeForm: "N/A", awayForm: "N/A" };
+            }
+
+            teamLinks = { home: homeUrl, away: awayUrl };
+            console.log(`   -> ✅ Found via Search: Home=${homeUrl}, Away=${awayUrl}`);
         }
 
         console.log(`   -> Found Team Links:`);
