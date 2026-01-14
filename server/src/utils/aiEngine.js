@@ -1,8 +1,8 @@
 import Groq from "groq-sdk";
 import { getScrapedDailyFixtures } from "./footballApi.js";
 import prisma from "./prisma.js";
-import { getH2H_TSDB } from './theSportsDbService.js';
-import { getFormFromScraper } from './scraperService.js'; // NEW SOURCE
+import { getH2H_TSDB, getForm_TSDB } from './theSportsDbService.js';
+// import { getFormFromScraper } from './scraperService.js'; // Retired in favor of TSDB API
 import { getTrueDate } from "./timeService.js";
 
 // --- KEY ROTATION UTILS ---
@@ -56,9 +56,9 @@ export const getMatchContext = async (game, dateStr) => {
         console.log(`🔎 Match Context: Fetching Rich Data for ${homeTeamName} vs ${awayTeamName}`);
 
         // Run Hybrid Fetch in Parallel
-        const [tsdbData, scraperData] = await Promise.all([
+        const [tsdbData, formData] = await Promise.all([
             getH2H_TSDB(homeTeamName, awayTeamName),
-            getFormFromScraper(homeTeamName, awayTeamName, dateStr)
+            getForm_TSDB(homeTeamName, awayTeamName) // New API Source
         ]);
 
         // 1. Process H2H (from TheSportsDB)
@@ -69,10 +69,10 @@ export const getMatchContext = async (game, dateStr) => {
             console.log("   -> ✅ H2H Acquired (TheSportsDB).");
         }
 
-        // 2. Process Form (from Scraper)
-        if (scraperData && scraperData.homeForm !== "N/A") {
-            context.homeForm = scraperData.homeForm;
-            context.awayForm = scraperData.awayForm;
+        // 2. Process Form (from TSDB)
+        if (formData && formData.homeForm !== "N/A") {
+            context.homeForm = formData.homeForm;
+            context.awayForm = formData.awayForm;
             console.log(`   -> ✅ Form Acquired (Scraper): ${context.homeForm} vs ${context.awayForm}`);
 
             // Simple Stats Derivation from Form String (e.g. "WWLDW")

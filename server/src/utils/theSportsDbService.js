@@ -79,3 +79,62 @@ export const getH2H_TSDB = async (homeName, awayName) => {
         return null;
     }
 };
+
+/**
+ * Get Last 5 Form string (e.g. "WWLDW") for a team ID.
+ */
+const fetchLast5 = async (teamId) => {
+    try {
+        const url = `${BASE_URL}/eventslast.php?id=${teamId}`;
+        const res = await fetch(url);
+        const data = await res.json();
+
+        if (!data.results) return "N/A";
+
+        // TSDB returns [Most Recent, ..., Oldest]
+        return data.results.map(e => {
+            const homeScore = parseInt(e.intHomeScore);
+            const awayScore = parseInt(e.intAwayScore);
+            const isHome = e.idHomeTeam == teamId;
+
+            if (homeScore === awayScore) return 'D';
+            if (isHome) return homeScore > awayScore ? 'W' : 'L';
+            else return awayScore > homeScore ? 'W' : 'L';
+        }).join('');
+    } catch (e) {
+        return "N/A";
+    }
+};
+
+/**
+ * Main function to get form for both teams.
+ */
+export const getForm_TSDB = async (homeName, awayName) => {
+    try {
+        console.log(`🦕 TSDB: Fetching Form for "${homeName}" vs "${awayName}"`);
+
+        // 1. Find IDs
+        const [homeTeam, awayTeam] = await Promise.all([
+            searchTeam(homeName),
+            searchTeam(awayName)
+        ]);
+
+        if (!homeTeam || !awayTeam) {
+            console.log("   -> ⚠️ Failed to identify one or both teams in TSDB.");
+            return { homeForm: "N/A", awayForm: "N/A" };
+        }
+
+        // 2. Fetch Form
+        const [homeForm, awayForm] = await Promise.all([
+            fetchLast5(homeTeam.idTeam),
+            fetchLast5(awayTeam.idTeam)
+        ]);
+
+        console.log(`   -> ✅ Form Acquired (TSDB): ${homeForm} vs ${awayForm}`);
+        return { homeForm, awayForm };
+
+    } catch (e) {
+        console.error("TSDB Form Error:", e.message);
+        return { homeForm: "N/A", awayForm: "N/A" };
+    }
+};
