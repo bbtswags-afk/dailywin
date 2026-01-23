@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 import PredictionFeed from '../components/features/PredictionFeed';
 import { useAuth } from '../context/AuthContext';
 import { Eye, EyeOff, Settings, X, Save } from 'lucide-react';
@@ -122,12 +122,12 @@ const Dashboard = () => {
                     <div className="flex items-center gap-3">
                         {/* Upgrade Button for Free Users */}
                         {user?.plan === 'free' && (
-                            <a
-                                href="/upgrade"
+                            <Link
+                                to="/upgrade"
                                 className="flex items-center gap-2 px-6 py-2 rounded-full bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-400 hover:to-orange-400 font-bold text-black shadow-lg shadow-yellow-500/20 transition-all hover:scale-105"
                             >
                                 Upgrade to Premium
-                            </a>
+                            </Link>
                         )}
 
                         {/* View Switcher for Testing/Preference */}
