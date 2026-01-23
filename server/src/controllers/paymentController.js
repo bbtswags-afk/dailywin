@@ -5,7 +5,7 @@ const PAYSTACK_SECRET_KEY = process.env.PAYSTACK_SECRET_KEY;
 
 // Plan Configuration
 const PLANS = {
-    'premium_ngn': { amount: 9000 * 100, currency: 'NGN' }, // 9000 Naira (in kobo)
+    'premium_ngn': { amount: 5000 * 100, currency: 'NGN' }, // 5000 Naira (in kobo)
     'premium_ghs': { amount: 100 * 100, currency: 'GHS' },  // 100 Cedis (in pesewas)
     'premium_uk': { amount: 12 * 100, currency: 'GBP' }     // 12 Pounds (in pence)
 };

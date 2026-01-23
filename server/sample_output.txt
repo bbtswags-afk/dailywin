@@ -1,0 +1,25 @@
+🤖 Generating Sample Analysis for: Arsenal vs Tottenham Hotspur
+   Fetching Real Data from TheSportsDB...
+🔎 Match Context: Fetching Rich Data for Arsenal vs Tottenham Hotspur
+🦕 TSDB: Looking up H2H for "Arsenal" vs "Tottenham Hotspur"
+🦕 TSDB: Fetching Form for "Arsenal" vs "Tottenham Hotspur"
+   -> ✅ Found 3 past meetings.
+   -> ✅ Form Acquired (TSDB): D vs L
+   -> ✅ H2H Acquired (TheSportsDB).
+   -> ✅ Form Acquired (Scraper): D vs L
+
+✅ Data Retrieved:
+   - Home Form: D
+   - Away Form: L
+   - H2H Preview: 2025-11-23: Arsenal vs Tottenham Hotspur (4-1)
+202...
+
+🧠 Asking AI for Analysis...
+
+================ DETAILED ANALYSIS =================
+
+The Scout emphasized Arsenal's strong H2H dominance, particularly their 4-1 win in the last meeting, and their ability to score goals at home. The Accountant countered with concerns about Tottenham's resilience in away games and the potential for a 'trap game'. However, considering Arsenal's goal-scoring record and Tottenham's concession of goals in away games, the consensus leaned towards a match with multiple goals, making Over 1.5 Goals the safest and most plausible choice.
+
+====================================================
+Prediction: Over 1.5 Goals
+Confidence: 80%

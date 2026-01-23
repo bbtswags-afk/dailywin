@@ -1,0 +1,9 @@
+Fetching: https://www.thesportsdb.com/api/v1/json/3/searchevents.php?e=Real%20Madrid
+Found 25 events.
+
+--- Top 5 Most Recent Matches ---
+2026-01-08: Real Madrid Baloncesto vs Maccabi Tel Aviv BC (98-86)
+2026-01-02: Real Madrid Baloncesto vs Dubai Basketball (107-93)
+2025-12-18: Real Madrid Baloncesto vs Paris Basketball (95-90)
+2025-12-11: Real Madrid Baloncesto vs Baskonia (94-87)
+2025-12-10: Real Madrid Juvenil vs Manchester City Youth (0-4)

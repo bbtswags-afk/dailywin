@@ -130,7 +130,7 @@ const Premium = () => {
                             className="w-full py-4 rounded-xl bg-gradient-to-r from-yellow-500 to-orange-500 text-black font-bold text-lg hover:opacity-90 transition-all flex items-center justify-center gap-2 transform hover:scale-[1.02] shadow-lg shadow-yellow-500/20"
                         >
                             <Zap className="w-5 h-5" />
-                            Subscribe Now - ₦9,000/mo
+                            Subscribe Now - ₦5,000/mo
                         </Link>
                         <p className="text-xs text-muted-foreground text-center">
                             Secure Bank Transfer via Moniepoint.

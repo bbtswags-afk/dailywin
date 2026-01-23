@@ -1,0 +1,14 @@
+🔎 Searching Events for query: "Real Madrid"...
+✅ Found 25 events.
+
+--- Top 10 Search Results (Most Recent) ---
+2026-04-16: Real Madrid Baloncesto vs KK Crvena zvezda [EuroLeague Basketball] (null-null)
+2026-03-26: Real Madrid Baloncesto vs Anadolu Efes SK [EuroLeague Basketball] (null-null)
+2026-03-24: Real Madrid Baloncesto vs Hapoel Tel Aviv BC [EuroLeague Basketball] (null-null)
+2026-03-12: Real Madrid Baloncesto vs Valencia Basket [EuroLeague Basketball] (null-null)
+2026-03-05: Real Madrid Baloncesto vs Virtus Pallacanestro Bologna [EuroLeague Basketball] (null-null)
+2026-02-26: Real Madrid Baloncesto vs Bayern München Basketball [EuroLeague Basketball] (null-null)
+2026-02-18: Real Madrid Femenino vs Paris FC Women [UEFA Womens Champions League] (null-null)
+2026-02-03: Real Madrid Juvenil vs Olympique de Marseille Youth [UEFA Youth League] (null-null)
+2026-01-22: Real Madrid Baloncesto vs AS Monaco Basket [EuroLeague Basketball] (null-null)
+2026-01-20: Real Madrid Baloncesto vs Olimpia Milano [EuroLeague Basketball] (null-null)
