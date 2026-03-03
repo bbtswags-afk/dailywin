@@ -75,7 +75,7 @@ export const getPredictions = async (req, res) => {
             console.log("🔒 Access: Applying GUEST restrictions.");
             const guestPredictions = predictions.map((p, index) => {
                 const basic = enrichPrediction(p);
-                if (index < 1) {
+                if (index < 5) {
                     return {
                         ...basic,
                         analysis: "🔒 Login to view analysis", // Locked for Guest
@@ -118,7 +118,7 @@ export const getPredictions = async (req, res) => {
             console.log("🔓 Access: Applying FREE USER restrictions.");
             const freePredictions = predictions.map((p, index) => {
                 // First 1 is FULLY unlocked
-                if (index < 1) return enrichPrediction(p);
+                if (index < 5) return enrichPrediction(p);
 
                 // The rest are LOCKED
                 return {

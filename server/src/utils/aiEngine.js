@@ -127,19 +127,18 @@ export const generatePrediction = async (context, homeTeam, awayTeam, league, re
         - If the game is very tight/defensive, use "Under 4.5 Goals".
         - "Team Over 0.5 Goals" is great for a strong team playing away.
 
-        Allowed Markets (Prioritized by Safety): 
-        - "Over 1.5 Goals" (Safe)
-        - "Over 0.5 Goals" (Ultra Safe - good for volatile games)
-        - "Double Chance 1X" (Home/Draw)
-        - "Double Chance X2" (Away/Draw)
-        - "Double Chance 12" (No Draw)
-        - "Home Win" (Clear Favorite)
-        - "Away Win" (Clear Favorite)
-        - "Over 5.5 Corners" (Safe)
-        - "Over 7.5 Corners" (Value)
-        - "Home Team Over 0.5 Goals" (Safe Accumulator)
-        - "Away Team Over 0.5 Goals" (Safe Accumulator)
-        - "Under 4.5 Goals" (Defensive safety)
+        Allowed Markets: 
+        - "Home Team – Over 0.5 Goals"
+        - "Away Team – Over 0.5 Goals"
+        - "Half-Time – Under 2.5 Goals"
+        - "Total Goals – Over 1.5"
+        - "Total Goals – Under 4.5"
+        - "Total Corners – Over 6.5"
+        - "Double Chance 1X"
+        - "Double Chance X2"
+        - "Double Chance 12"
+        - "Home Team – Under 2.5 Goals"
+        - "Away Team – Under 2.5 Goals"
 
         Output JSON ONLY:
         {

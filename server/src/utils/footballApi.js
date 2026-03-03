@@ -251,7 +251,7 @@ export const getScrapedDailyFixtures = async (optionalDateStr) => {
                         fixture: {
                             id: evt.Eid, // Use LS ID
                             date: dateObj.toISOString(), // Approximation
-                            status: { short: "NS" } // Not Started
+                            status: { short: evt.Eps || "NS" }
                         },
                         league: {
                             id: mapId,
@@ -263,6 +263,12 @@ export const getScrapedDailyFixtures = async (optionalDateStr) => {
                         teams: {
                             home: { name: evt.T1[0].Nm, id: 0, logo: "https://lsm-static-prod.livescore.com/medium/" + evt.T1[0].Img },
                             away: { name: evt.T2[0].Nm, id: 0, logo: "https://lsm-static-prod.livescore.com/medium/" + evt.T2[0].Img }
+                        },
+                        goals: {
+                            home: parseInt(evt.Tr1) || 0,
+                            away: parseInt(evt.Tr2) || 0,
+                            ht_home: parseInt(evt.Trh1) || 0,
+                            ht_away: parseInt(evt.Trh2) || 0
                         }
                     });
                 });
