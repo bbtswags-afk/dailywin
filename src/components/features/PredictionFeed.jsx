@@ -72,7 +72,7 @@ const PredictionFeed = ({ viewMode, isDashboard = false }) => {
 
                 // Priority 2: Semantic mapping / Fallbacks
                 if (filter === 'safe') return g.confidence >= 90 || pred.includes("Over 1.5 Goals");
-                if (filter === 'goals') return pred.includes("Goals") || pred.includes("Over") || pred.includes("Under");
+                if (filter === 'goals') return pred.includes("Goals") || pred.includes("Over") || pred.includes("Under") || pred.includes("0.5");
                 if (filter === 'corners') return pred.includes("Corners");
                 if (filter === 'double') return pred.includes("1X") || pred.includes("X2") || pred.includes("12") || pred.includes("Double");
 

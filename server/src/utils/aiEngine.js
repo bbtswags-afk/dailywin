@@ -118,36 +118,38 @@ export const generatePrediction = async (context, homeTeam, awayTeam, league, re
         - H2H: ${context.h2h}
         Context: ${context.volatilityContext}.
 
-        Task: Analyze the SCORE LINES of the last 5 games. How did they win/lose? (e.g. tight 1-0 or dominant 4-0?).
-        Run a debate between The Scout and The Accountant.
-        - You MUST prioritize SAFETY but also DIVERSITY. Do not just default to "Over 1.5 Goals".
-        - If a team is a strong favorite but might draw, use "Double Chance 1X" or "12".
-        - If both teams score often but result is unclear, use "Over 1.5 Goals" or "Over 0.5 Goals".
-        - If a team attacks heavily, use "Over 5.5 Corners".
-        - If the game is very tight/defensive, use "Under 4.5 Goals".
-        - "Team Over 0.5 Goals" is great for a strong team playing away.
+        Task: Deeply analyze the score lines of the last 5 games for BOTH teams. 
+        - Look for patterns: Are they clean sheets? Are they high-scoring wins? 
+        - Check H2H history: Does one team consistently dominate the other?
+        - Form Check: Is a team on a winning streak or a losing slump?
+        - Momentum: How was the VERY LAST game played?
 
-        Allowed Markets: 
-        - "Home Team – Over 0.5 Goals"
-        - "Away Team – Over 0.5 Goals"
-        - "Half-Time – Under 2.5 Goals"
+        Run a debate between The Scout and The Accountant.
+        - You MUST prioritize ACCURACY. Use the most likely outcome from the markets below.
+        - If a team is a strong favorite, use "Double Chance 1X" or "Team Over 0.5 Goals".
+        - If both teams are goal-oriented, use "Total Goals – Over 1.5" or "Total Goals – Over 0.5".
+        - If the match is likely to be high-pressure and physical, consider "Total Corners – Over 6.5".
+        - If the defense is elite on both sides, use "Total Goals – Under 4.5".
+
+        Allowed Markets (ONLY USE THESE): 
+        - "Total Goals – Over 0.5"
         - "Total Goals – Over 1.5"
         - "Total Goals – Under 4.5"
         - "Total Corners – Over 6.5"
         - "Double Chance 1X"
         - "Double Chance X2"
         - "Double Chance 12"
-        - "Home Team – Under 2.5 Goals"
-        - "Away Team – Under 2.5 Goals"
+        - "Home Team – Over 0.5 Goals"
+        - "Away Team – Over 0.5 Goals"
 
         Output JSON ONLY:
         {
             "prediction": "The Consensus Market",
             "confidence": 0-100,
-            "reasoning": "Briefly summarize the debate (e.g. 'Scout liked Home Win, but Accountant feared the defense, so we settled on Over 1.5').",
+            "reasoning": "Briefly summarize the critical data points that led to this decision (H2H, Form, Streak).",
             "type": "Safe" | "Risky" | "Value",
             "isVolatile": boolean,
-            "odds": "Decimal Odds (e.g. 1.30, 1.50)"
+            "odds": "Decimal Odds (e.g. 1.15, 1.45)"
         }
         `;
 
