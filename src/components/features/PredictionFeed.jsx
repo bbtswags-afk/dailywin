@@ -59,14 +59,24 @@ const PredictionFeed = ({ viewMode, isDashboard = false }) => {
             setDisplayedGames(games);
         } else {
             setDisplayedGames(games.filter(g => {
-                if (g.category) return g.category === filter || (filter === 'safe' && g.confidence >= 90);
-                // Fallback
-                if (filter === 'safe') return g.confidence >= 90 || g.prediction === "Over 1.5 Goals";
-                if (filter === 'goals') return g.prediction.includes("Goals");
-                if (filter === 'win') return g.prediction.includes("Win");
-                if (filter === 'corners') return g.prediction.includes("Corners");
-                if (filter === 'double') return g.prediction.includes("1X") || g.prediction.includes("X2");
-                return true;
+                const pred = g.prediction || "";
+
+                // Priority 1: Backend explicit category
+                if (g.category) {
+                    const cat = g.category.toLowerCase();
+                    if (filter === 'double' && cat === 'double chance') return true;
+                    if (filter === 'safe' && cat === 'safe') return true;
+                    if (filter === 'goals' && cat === 'goals') return true;
+                    if (filter === 'corners' && cat === 'corners') return true;
+                }
+
+                // Priority 2: Semantic mapping / Fallbacks
+                if (filter === 'safe') return g.confidence >= 90 || pred.includes("Over 1.5 Goals");
+                if (filter === 'goals') return pred.includes("Goals") || pred.includes("Over") || pred.includes("Under");
+                if (filter === 'corners') return pred.includes("Corners");
+                if (filter === 'double') return pred.includes("1X") || pred.includes("X2") || pred.includes("12") || pred.includes("Double");
+
+                return false;
             }));
         }
     }, [filter, games]);

@@ -235,14 +235,16 @@ export const generateDailyPredictions = async (targetDateString) => {
         }
 
 
-        // --- STEP 1: CLEANUP YESTERDAY ---
-        // Just keep DB clean.
+        // --- STEP 1: RETAIN HISTORY (30-day cleanup) ---
+        const thirtyDaysAgo = new Date(today);
+        thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+
         await prisma.prediction.deleteMany({
             where: {
-                date: { lt: startOfDay }
+                date: { lt: thirtyDaysAgo }
             }
         });
-        console.log("🧹 Cleared old predictions from DB.");
+        console.log("🧹 Retention: Cleared predictions older than 30 days.");
 
 
         // --- STEP 2: Fetch Fixtures ---
