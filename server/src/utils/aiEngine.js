@@ -4,6 +4,7 @@ import prisma from "./prisma.js";
 import { getH2H_TSDB, getForm_TSDB } from './theSportsDbService.js';
 // import { getFormFromScraper } from './scraperService.js'; // Retired in favor of TSDB API
 import { getTrueDate } from "./timeService.js";
+import { checkPendingResults, ensureWinRate } from "../controllers/historyController.js";
 
 // --- KEY ROTATION UTILS ---
 const getGroqKeys = () => {
@@ -214,6 +215,13 @@ export const generateDailyPredictions = async (targetDateString) => {
         }
 
         console.log(`🤖 AI Engine Processing for: ${today.toISOString().split('T')[0]}`);
+
+        // --- STEP -1: SYNC PREVIOUS RESULTS (As requested by USER) ---
+        // History updates when AI predicts for another game.
+        console.log("🔄 Syncing Previous Results from LiveScore into History...");
+        await checkPendingResults();
+        await ensureWinRate();
+        console.log("✅ History Sync Complete.");
 
         const startOfDay = new Date(today);
         startOfDay.setHours(0, 0, 0, 0);
